@@ -51,55 +51,55 @@ public interface Expectations extends Iterable<DynamicContainer> {
         return new Headers10(headerA, headerB, headerC, headerD, headerE, headerF, headerG, headerH, headerI, headerJ);
     }
 
-    static <A> Where1<A> forEach(String headerA, Iterable<A> valuesA) {
+    static <A> Where1<A> given(String headerA, Iterable<A> valuesA) {
         return new Where1<>(new Headers1(headerA), new Zip1<>(valuesA.iterator()));
     }
 
-    static <A, B> Where2<A, B> forEach(String headerA, Iterable<A> valuesA, String headerB, Iterable<B> valuesB) {
+    static <A, B> Where2<A, B> given(String headerA, Iterable<A> valuesA, String headerB, Iterable<B> valuesB) {
         return new Where2<>(new Headers2(headerA, headerB), new Zip2<>(valuesA.iterator(), valuesB.iterator()));
     }
 
-    static <A, B, C> Where3<A, B, C> forEach(String headerA, Iterable<A> valuesA, String headerB, Iterable<B> valuesB, String headerC, Iterable<C> valuesC) {
+    static <A, B, C> Where3<A, B, C> given(String headerA, Iterable<A> valuesA, String headerB, Iterable<B> valuesB, String headerC, Iterable<C> valuesC) {
         return new Where3<>(new Headers3(headerA, headerB, headerC), new Zip3<>(valuesA.iterator(), valuesB.iterator(), valuesC.iterator()));
     }
 
-    static <A, B, C, D> Where4<A, B, C, D> forEach(String headerA, Iterable<A> valuesA, String headerB, Iterable<B> valuesB, String headerC, Iterable<C> valuesC, String headerD, Iterable<D> valuesD) {
+    static <A, B, C, D> Where4<A, B, C, D> given(String headerA, Iterable<A> valuesA, String headerB, Iterable<B> valuesB, String headerC, Iterable<C> valuesC, String headerD, Iterable<D> valuesD) {
         return new Where4<>(new Headers4(headerA, headerB, headerC, headerD), new Zip4<>(valuesA.iterator(), valuesB.iterator(), valuesC.iterator(), valuesD.iterator()));
     }
 
-    static <A, B, C, D, E> Where5<A, B, C, D, E> forEach(String headerA, Iterable<A> valuesA, String headerB, Iterable<B> valuesB, String headerC, Iterable<C> valuesC, String headerD, Iterable<D> valuesD, String headerE, Iterable<E> valuesE) {
+    static <A, B, C, D, E> Where5<A, B, C, D, E> given(String headerA, Iterable<A> valuesA, String headerB, Iterable<B> valuesB, String headerC, Iterable<C> valuesC, String headerD, Iterable<D> valuesD, String headerE, Iterable<E> valuesE) {
         return new Where5<>(new Headers5(headerA, headerB, headerC, headerD, headerE), new Zip5<>(valuesA.iterator(), valuesB.iterator(), valuesC.iterator(), valuesD.iterator(), valuesE.iterator()));
     }
 
-    static <A, B, C, D, E, F> Where6<A, B, C, D, E, F> forEach(String headerA, Iterable<A> valuesA, String headerB, Iterable<B> valuesB, String headerC, Iterable<C> valuesC, String headerD, Iterable<D> valuesD, String headerE, Iterable<E> valuesE, String headerF, Iterable<F> valuesF) {
+    static <A, B, C, D, E, F> Where6<A, B, C, D, E, F> given(String headerA, Iterable<A> valuesA, String headerB, Iterable<B> valuesB, String headerC, Iterable<C> valuesC, String headerD, Iterable<D> valuesD, String headerE, Iterable<E> valuesE, String headerF, Iterable<F> valuesF) {
         return new Where6<>(new Headers6(headerA, headerB, headerC, headerD, headerE, headerF), new Zip6<>(valuesA.iterator(), valuesB.iterator(), valuesC.iterator(), valuesD.iterator(), valuesE.iterator(), valuesF.iterator()));
     }
 
-    static <A, B, C, D, E, F, G> Where7<A, B, C, D, E, F, G> forEach(String headerA, Iterable<A> valuesA, String headerB, Iterable<B> valuesB, String headerC, Iterable<C> valuesC, String headerD, Iterable<D> valuesD, String headerE, Iterable<E> valuesE, String headerF, Iterable<F> valuesF, String headerG, Iterable<G> valuesG) {
+    static <A, B, C, D, E, F, G> Where7<A, B, C, D, E, F, G> given(String headerA, Iterable<A> valuesA, String headerB, Iterable<B> valuesB, String headerC, Iterable<C> valuesC, String headerD, Iterable<D> valuesD, String headerE, Iterable<E> valuesE, String headerF, Iterable<F> valuesF, String headerG, Iterable<G> valuesG) {
         return new Where7<>(new Headers7(headerA, headerB, headerC, headerD, headerE, headerF, headerG), new Zip7<>(valuesA.iterator(), valuesB.iterator(), valuesC.iterator(), valuesD.iterator(), valuesE.iterator(), valuesF.iterator(), valuesG.iterator()));
     }
 
-    static <A, B, C, D, E, F, G, H> Where8<A, B, C, D, E, F, G, H> forEach(String headerA, Iterable<A> valuesA, String headerB, Iterable<B> valuesB, String headerC, Iterable<C> valuesC, String headerD, Iterable<D> valuesD, String headerE, Iterable<E> valuesE, String headerF, Iterable<F> valuesF, String headerG, Iterable<G> valuesG, String headerH, Iterable<H> valuesH) {
+    static <A, B, C, D, E, F, G, H> Where8<A, B, C, D, E, F, G, H> given(String headerA, Iterable<A> valuesA, String headerB, Iterable<B> valuesB, String headerC, Iterable<C> valuesC, String headerD, Iterable<D> valuesD, String headerE, Iterable<E> valuesE, String headerF, Iterable<F> valuesF, String headerG, Iterable<G> valuesG, String headerH, Iterable<H> valuesH) {
         return new Where8<>(new Headers8(headerA, headerB, headerC, headerD, headerE, headerF, headerG, headerH), new Zip8<>(valuesA.iterator(), valuesB.iterator(), valuesC.iterator(), valuesD.iterator(), valuesE.iterator(), valuesF.iterator(), valuesG.iterator(), valuesH.iterator()));
     }
 
-    static <A, B, C, D, E, F, G, H, I> Where9<A, B, C, D, E, F, G, H, I> forEach(String headerA, Iterable<A> valuesA, String headerB, Iterable<B> valuesB, String headerC, Iterable<C> valuesC, String headerD, Iterable<D> valuesD, String headerE, Iterable<E> valuesE, String headerF, Iterable<F> valuesF, String headerG, Iterable<G> valuesG, String headerH, Iterable<H> valuesH, String headerI, Iterable<I> valuesI) {
+    static <A, B, C, D, E, F, G, H, I> Where9<A, B, C, D, E, F, G, H, I> given(String headerA, Iterable<A> valuesA, String headerB, Iterable<B> valuesB, String headerC, Iterable<C> valuesC, String headerD, Iterable<D> valuesD, String headerE, Iterable<E> valuesE, String headerF, Iterable<F> valuesF, String headerG, Iterable<G> valuesG, String headerH, Iterable<H> valuesH, String headerI, Iterable<I> valuesI) {
         return new Where9<>(new Headers9(headerA, headerB, headerC, headerD, headerE, headerF, headerG, headerH, headerI), new Zip9<>(valuesA.iterator(), valuesB.iterator(), valuesC.iterator(), valuesD.iterator(), valuesE.iterator(), valuesF.iterator(), valuesG.iterator(), valuesH.iterator(), valuesI.iterator()));
     }
 
-    static <A, B, C, D, E, F, G, H, I, J> Where10<A, B, C, D, E, F, G, H, I, J> forEach(String headerA, Iterable<A> valuesA, String headerB, Iterable<B> valuesB, String headerC, Iterable<C> valuesC, String headerD, Iterable<D> valuesD, String headerE, Iterable<E> valuesE, String headerF, Iterable<F> valuesF, String headerG, Iterable<G> valuesG, String headerH, Iterable<H> valuesH, String headerI, Iterable<I> valuesI, String headerJ, Iterable<J> valuesJ) {
+    static <A, B, C, D, E, F, G, H, I, J> Where10<A, B, C, D, E, F, G, H, I, J> given(String headerA, Iterable<A> valuesA, String headerB, Iterable<B> valuesB, String headerC, Iterable<C> valuesC, String headerD, Iterable<D> valuesD, String headerE, Iterable<E> valuesE, String headerF, Iterable<F> valuesF, String headerG, Iterable<G> valuesG, String headerH, Iterable<H> valuesH, String headerI, Iterable<I> valuesI, String headerJ, Iterable<J> valuesJ) {
         return new Where10<>(new Headers10(headerA, headerB, headerC, headerD, headerE, headerF, headerG, headerH, headerI, headerJ), new Zip10<>(valuesA.iterator(), valuesB.iterator(), valuesC.iterator(), valuesD.iterator(), valuesE.iterator(), valuesF.iterator(), valuesG.iterator(), valuesH.iterator(), valuesI.iterator(), valuesJ.iterator()));
     }
 
-    static <A> Where1<A> forEach(String headerA, Stream<A> valuesA) {
+    static <A> Where1<A> given(String headerA, Stream<A> valuesA) {
         return new Where1<>(new Headers1(headerA), new Zip1<>(valuesA.iterator()));
     }
 
-    static <A, B> Where2<A, B> forEach(String headerA, Stream<A> valuesA, String headerB, Stream<B> valuesB) {
+    static <A, B> Where2<A, B> given(String headerA, Stream<A> valuesA, String headerB, Stream<B> valuesB) {
         return new Where2<>(new Headers2(headerA, headerB), new Zip2<>(valuesA.iterator(), valuesB.iterator()));
     }
 
-    static <A, B, C> Where3<A, B, C> forEach(
+    static <A, B, C> Where3<A, B, C> given(
             String headerA,
             Stream<A> valuesA,
             String headerB,
@@ -110,7 +110,7 @@ public interface Expectations extends Iterable<DynamicContainer> {
         return new Where3<>(new Headers3(headerA, headerB, headerC), new Zip3<>(valuesA.iterator(), valuesB.iterator(), valuesC.iterator()));
     }
 
-    static <A, B, C, D> Where4<A, B, C, D> forEach(
+    static <A, B, C, D> Where4<A, B, C, D> given(
             String headerA,
             Stream<A> valuesA,
             String headerB,
@@ -123,7 +123,7 @@ public interface Expectations extends Iterable<DynamicContainer> {
         return new Where4<>(new Headers4(headerA, headerB, headerC, headerD), new Zip4<>(valuesA.iterator(), valuesB.iterator(), valuesC.iterator(), valuesD.iterator()));
     }
 
-    static <A, B, C, D, E> Where5<A, B, C, D, E> forEach(
+    static <A, B, C, D, E> Where5<A, B, C, D, E> given(
             String headerA,
             Stream<A> valuesA,
             String headerB,
@@ -138,7 +138,7 @@ public interface Expectations extends Iterable<DynamicContainer> {
         return new Where5<>(new Headers5(headerA, headerB, headerC, headerD, headerE), new Zip5<>(valuesA.iterator(), valuesB.iterator(), valuesC.iterator(), valuesD.iterator(), valuesE.iterator()));
     }
 
-    static <A, B, C, D, E, F> Where6<A, B, C, D, E, F> forEach(
+    static <A, B, C, D, E, F> Where6<A, B, C, D, E, F> given(
             String headerA,
             Stream<A> valuesA,
             String headerB,
@@ -155,7 +155,7 @@ public interface Expectations extends Iterable<DynamicContainer> {
         return new Where6<>(new Headers6(headerA, headerB, headerC, headerD, headerE, headerF), new Zip6<>(valuesA.iterator(), valuesB.iterator(), valuesC.iterator(), valuesD.iterator(), valuesE.iterator(), valuesF.iterator()));
     }
 
-    static <A, B, C, D, E, F, G> Where7<A, B, C, D, E, F, G> forEach(
+    static <A, B, C, D, E, F, G> Where7<A, B, C, D, E, F, G> given(
             String headerA,
             Stream<A> valuesA,
             String headerB,
@@ -174,7 +174,7 @@ public interface Expectations extends Iterable<DynamicContainer> {
         return new Where7<>(new Headers7(headerA, headerB, headerC, headerD, headerE, headerF, headerG), new Zip7<>(valuesA.iterator(), valuesB.iterator(), valuesC.iterator(), valuesD.iterator(), valuesE.iterator(), valuesF.iterator(), valuesG.iterator()));
     }
 
-    static <A, B, C, D, E, F, G, H> Where8<A, B, C, D, E, F, G, H> forEach(
+    static <A, B, C, D, E, F, G, H> Where8<A, B, C, D, E, F, G, H> given(
             String headerA,
             Stream<A> valuesA,
             String headerB,
@@ -195,7 +195,7 @@ public interface Expectations extends Iterable<DynamicContainer> {
         return new Where8<>(new Headers8(headerA, headerB, headerC, headerD, headerE, headerF, headerG, headerH), new Zip8<>(valuesA.iterator(), valuesB.iterator(), valuesC.iterator(), valuesD.iterator(), valuesE.iterator(), valuesF.iterator(), valuesG.iterator(), valuesH.iterator()));
     }
 
-    static <A, B, C, D, E, F, G, H, I> Where9<A, B, C, D, E, F, G, H, I> forEach(
+    static <A, B, C, D, E, F, G, H, I> Where9<A, B, C, D, E, F, G, H, I> given(
             String headerA,
             Stream<A> valuesA,
             String headerB,
@@ -218,7 +218,7 @@ public interface Expectations extends Iterable<DynamicContainer> {
         return new Where9<>(new Headers9(headerA, headerB, headerC, headerD, headerE, headerF, headerG, headerH, headerI), new Zip9<>(valuesA.iterator(), valuesB.iterator(), valuesC.iterator(), valuesD.iterator(), valuesE.iterator(), valuesF.iterator(), valuesG.iterator(), valuesH.iterator(), valuesI.iterator()));
     }
 
-    static <A, B, C, D, E, F, G, H, I, J> Where10<A, B, C, D, E, F, G, H, I, J> forEach(
+    static <A, B, C, D, E, F, G, H, I, J> Where10<A, B, C, D, E, F, G, H, I, J> given(
             String headerA,
             Stream<A> valuesA,
             String headerB,

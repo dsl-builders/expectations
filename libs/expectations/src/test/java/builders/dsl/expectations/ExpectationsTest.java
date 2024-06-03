@@ -8,7 +8,7 @@ import org.opentest4j.MultipleFailuresError;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
-import static builders.dsl.expectations.Expectations.forEach;
+import static builders.dsl.expectations.Expectations.given;
 import static builders.dsl.expectations.Expectations.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -74,7 +74,7 @@ class ExpectationsTest {
     Expectations basicTest1WithStreams() {
         Calculator calculator = new Calculator();
 
-        return forEach(
+        return Expectations.given(
                 "a", Stream.of(2, 3)
         ).expect("#a + 0 = #a", a ->
                 calculator.add(a, 0) == a
@@ -85,7 +85,7 @@ class ExpectationsTest {
     Expectations basicTest1WithIterables() {
         Calculator calculator = new Calculator();
 
-        return forEach(
+        return Expectations.given(
                 "a", Arrays.asList(2, 3)
         ).expect("#a + 0 = #a", a ->
                 calculator.add(a, 0) == a
@@ -131,7 +131,7 @@ class ExpectationsTest {
     Expectations basicTest2WithStreams() {
         Calculator calculator = new Calculator();
 
-        return forEach(
+        return Expectations.given(
                 "a", Stream.of(2, 3),
                 "b", Stream.of(3, 2)
         ).expect("#a + #b = 5", (a, b) ->
@@ -143,7 +143,7 @@ class ExpectationsTest {
     Expectations basicTest2WithIterables() {
         Calculator calculator = new Calculator();
 
-        return forEach(
+        return Expectations.given(
                 "a", Arrays.asList(2, 3),
                 "b", Arrays.asList(3, 2)
         ).expect("#a + #b = 5", (a, b) ->
@@ -168,7 +168,8 @@ class ExpectationsTest {
     // end::fluent-expect[]
 
 
-    @Test
+    // tag::immediately-verify[]
+    @Test                                                                               // <1>
     void basicTest3FluentFails() {
         Assertions.assertThrows(MultipleFailuresError.class, () -> {
             Calculator calculator = new Calculator();
@@ -178,10 +179,12 @@ class ExpectationsTest {
                     .and(3, 5, 9)
                     .and(4, 7, 11)
                     .expect("#a + #b = #c", (a, b, c) -> calculator.add(a, b) == c)
-                    .verify();
+                    .verify();                                                          // <2>
         });
     }
+    // end::immediately-verify[]
 
+    // tag::junit-assertions[]
     @TestFactory
     Expectations basicTest3FluentVerify() {
         Calculator calculator = new Calculator();
@@ -191,28 +194,32 @@ class ExpectationsTest {
                 .and(3, 5, 8)
                 .and(4, 7, 11)
                 .verify("#a + #b = #c", (a, b, c) ->
-                        assertEquals((int) c, calculator.add(a, b))
+                        assertEquals((int) c, calculator.add(a, b))                     // <1>
                 );
     }
+    // end::junit-assertions[]
 
+
+    // tag::streams[]
     @TestFactory
     Expectations basicTest3WithStreams() {
         Calculator calculator = new Calculator();
 
-        return forEach(
-                "a", Stream.of(2, 3, 4),
+        return Expectations.given(
+                "a", Stream.of(2, 3, 4),                                                // <1>
                 "b", Stream.of(3, 5, 7),
                 "c", Stream.of(5, 8, 11)
         ).expect("#a + #b = #c", (a, b, c) ->
                 calculator.add(a, b) == c
         );
     }
+    // end::streams[]
 
     @TestFactory
     Expectations basicTest3WithIterables() {
         Calculator calculator = new Calculator();
 
-        return forEach(
+        return Expectations.given(
                 "a", Arrays.asList(2, 3, 4),
                 "b", Arrays.asList(3, 5, 7),
                 "c", Arrays.asList(5, 8, 11)
@@ -263,7 +270,7 @@ class ExpectationsTest {
     Expectations basicTest4WithStreams() {
         Calculator calculator = new Calculator();
 
-        return forEach(
+        return Expectations.given(
                 "a", Stream.of(2, 3, 4),
                 "b", Stream.of(3, 5, 7),
                 "c", Stream.of(5, 8, 11),
@@ -277,7 +284,7 @@ class ExpectationsTest {
     Expectations basicTest4WithIterables() {
         Calculator calculator = new Calculator();
 
-        return forEach(
+        return Expectations.given(
                 "a", Arrays.asList(2, 3, 4),
                 "b", Arrays.asList(3, 5, 7),
                 "c", Arrays.asList(5, 8, 11),
@@ -329,7 +336,7 @@ class ExpectationsTest {
     Expectations basicTest5WithStreams() {
         Calculator calculator = new Calculator();
 
-        return forEach(
+        return Expectations.given(
                 "a", Stream.of(2, 3, 4),
                 "b", Stream.of(3, 5, 7),
                 "c", Stream.of(5, 8, 11),
@@ -344,7 +351,7 @@ class ExpectationsTest {
     Expectations basicTest5WithIterables() {
         Calculator calculator = new Calculator();
 
-        return forEach(
+        return Expectations.given(
                 "a", Arrays.asList(2, 3, 4),
                 "b", Arrays.asList(3, 5, 7),
                 "c", Arrays.asList(5, 8, 11),
@@ -397,7 +404,7 @@ class ExpectationsTest {
     Expectations basicTest6WithStreams() {
         Calculator calculator = new Calculator();
 
-        return forEach(
+        return Expectations.given(
                 "a", Stream.of(2, 3, 4),
                 "b", Stream.of(3, 5, 7),
                 "c", Stream.of(5, 8, 11),
@@ -413,7 +420,7 @@ class ExpectationsTest {
     Expectations basicTest6WithIterables() {
         Calculator calculator = new Calculator();
 
-        return forEach(
+        return Expectations.given(
                 "a", Arrays.asList(2, 3, 4),
                 "b", Arrays.asList(3, 5, 7),
                 "c", Arrays.asList(5, 8, 11),
@@ -467,7 +474,7 @@ class ExpectationsTest {
     Expectations basicTest7WithStreams() {
         Calculator calculator = new Calculator();
 
-        return forEach(
+        return Expectations.given(
                 "a", Stream.of(2, 3, 4),
                 "b", Stream.of(3, 5, 7),
                 "c", Stream.of(5, 8, 11),
@@ -484,7 +491,7 @@ class ExpectationsTest {
     Expectations basicTest7WithIterables() {
         Calculator calculator = new Calculator();
 
-        return forEach(
+        return Expectations.given(
                 "a", Arrays.asList(2, 3, 4),
                 "b", Arrays.asList(3, 5, 7),
                 "c", Arrays.asList(5, 8, 11),
@@ -539,7 +546,7 @@ class ExpectationsTest {
     Expectations basicTest8WithStreams() {
         Calculator calculator = new Calculator();
 
-        return forEach(
+        return Expectations.given(
                 "a", Stream.of(2, 3, 4),
                 "b", Stream.of(3, 5, 7),
                 "c", Stream.of(5, 8, 11),
@@ -557,7 +564,7 @@ class ExpectationsTest {
     Expectations basicTest8WithIterables() {
         Calculator calculator = new Calculator();
 
-        return forEach(
+        return Expectations.given(
                 "a", Arrays.asList(2, 3, 4),
                 "b", Arrays.asList(3, 5, 7),
                 "c", Arrays.asList(5, 8, 11),
@@ -613,7 +620,7 @@ class ExpectationsTest {
     Expectations basicTest9WithStreams() {
         Calculator calculator = new Calculator();
 
-        return forEach(
+        return Expectations.given(
                 "a", Stream.of(2, 3, 4),
                 "b", Stream.of(3, 5, 7),
                 "c", Stream.of(5, 8, 11),
@@ -632,7 +639,7 @@ class ExpectationsTest {
     Expectations basicTest9WithIterables() {
         Calculator calculator = new Calculator();
 
-        return forEach(
+        return Expectations.given(
                 "a", Arrays.asList(2, 3, 4),
                 "b", Arrays.asList(3, 5, 7),
                 "c", Arrays.asList(5, 8, 11),
@@ -690,7 +697,7 @@ class ExpectationsTest {
     Expectations basicTest10WithStreams() {
         Calculator calculator = new Calculator();
 
-        return forEach(
+        return Expectations.given(
                 "a", Stream.of(2, 3, 4),
                 "b", Stream.of(3, 5, 7),
                 "c", Stream.of(5, 8, 11),
@@ -710,7 +717,7 @@ class ExpectationsTest {
     Expectations basicTest10WithIterables() {
         Calculator calculator = new Calculator();
 
-        return forEach(
+        return Expectations.given(
                 "a", Arrays.asList(2, 3, 4),
                 "b", Arrays.asList(3, 5, 7),
                 "c", Arrays.asList(5, 8, 11),

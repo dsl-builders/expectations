@@ -40,6 +40,7 @@ dependencies {
 
 == Usage
 
+=== Implicit Assertions
 To create a parametrized test using Expectations DSL builder, you need to create a test method returning `Expectations` and annotate it with `@TestFactory` annotation.
 
 [source,java,indent=0,subs='verbatim,attributes']
@@ -54,4 +55,42 @@ include::{root-dir}/libs/expectations/src/test/java/builders/dsl/expectations/Ex
 <5> Define the test title template using the headers preceded by `#` to define the placeholders
 <6> Define the test
 
-image::fluent-expect.png[]
+Depending on your IDE the results will look similar to this picture:
+
+[.fluent-results]
+.Fluent Expectations Results
+image::fluent-results.png[]
+
+=== Explicit Assertions using JUnit 5
+
+You can use any of your favorite frameworks to do the assertions. In this example, you can use JUnit 5 `Assertions` class instead of simple evaluation of logical expression.
+
+[source,java,indent=0,subs='verbatim,attributes']
+.JUnit 5 Assertions
+----
+include::{root-dir}/libs/expectations/src/test/java/builders/dsl/expectations/ExpectationsTest.java[tag=junit-assertions]
+----
+<1> Use `assertEquals` to verify the expected value
+
+== Immediately Verify Expectations
+
+If you for any reason want to execute all the assertions as a single test method, you can annotate the method with `@Test` and use `verify()` method on the `Expectations` object.
+
+[source,java,indent=0,subs='verbatim,attributes']
+.Immediately Verify Expectations
+----
+include::{root-dir}/libs/expectations/src/test/java/builders/dsl/expectations/ExpectationsTest.java[tag=immediately-verify]
+----
+<1> Annotate method with `@Test`
+<2> Use `verify()` method to execute all the assertions
+
+== Using More Dynamic Parameters
+
+You can also define the parameter values using `Stream` or `Iterable` objects. In that case the given method will alter header and `Stream` or `Iterable` to define the data rows.
+
+[source,java,indent=0,subs='verbatim,attributes']
+.Dynamic Parameters
+----
+include::{root-dir}/libs/expectations/src/test/java/builders/dsl/expectations/ExpectationsTest.java[tag=streams]
+----
+<1> Define the parameters using the pair of header and `Stream` object

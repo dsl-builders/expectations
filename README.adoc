@@ -1,0 +1,11 @@
+= Groovy Spreadsheet Builder
+
+Spreadsheet builder provides convenient way how to create MS Excel OfficeOpenXML
+Documents (XSLX) focus not only on content side but also on easy styling. 
+
+Google Sheets are also supported indirectly (native Excel <=> Google conversion).
+
+See the link:http://spreadsheet.dsl.builders/[Full Documentation]
+
+== Acknowledgement
+This project is inspired by http://www.craigburke.com/document-builder/[Groovy Document Builder]

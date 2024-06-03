@@ -1,0 +1,57 @@
+= Expectations DSL Builder
+
+[.ribbon]
+image::ribbon.png[link={project-url}]
+
+Expectations DSL builder provides simple yet powerful way how to create parametrized test in JUnit 5 using `@TestFactory` annotation.
+
+== Installation
+
+Expectations DSL builder is available on Maven Central.
+
+[source,indent=0,role="primary",subs='attributes']
+.Gradle
+----
+plugins {
+  id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'builders.dsl:expectations:{project-version}'
+}
+
+----
+
+[source,xml,indent=0,role="secondary",subs='verbatim,attributes']
+.Maven
+----
+<!-- Excel -->
+<dependency>
+  <groupId>builders.dsl</groupId>
+  <artifactId>expectations</artifactId>
+  <version>{project-version}</version>
+  <scope>test</scope>
+</dependency>
+----
+
+== Usage
+
+To create a parametrized test using Expectations DSL builder, you need to create a test method returning `Expectations` and annotate it with `@TestFactory` annotation.
+
+[source,java,indent=0,subs='verbatim,attributes']
+.Fluent Expectations
+----
+include::{root-dir}/libs/expectations/src/test/java/builders/dsl/expectations/ExpectationsTest.java[tag=fluent-expect]
+----
+<1> Annotate method with `@TestFactory`
+<2> Make the method return `Expectations`
+<3> Define the parameters' headers using `given`
+<4> Define at least one data row using `are`
+<5> Define the test title template using the headers preceded by `#` to define the placeholders
+<6> Define the test
+
+image::fluent-expect.png[]

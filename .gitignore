@@ -1,0 +1,12 @@
+.gradle
+**/build/
+**/.idea/
+**/*.iml
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Google OAuth tokens
+libs/spreadsheet-builder-google/tokens/StoredCredential

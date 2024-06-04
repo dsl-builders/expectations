@@ -61,6 +61,8 @@ Depending on your IDE the results will look similar to this picture:
 .Fluent Expectations Results
 image::fluent-results.png[]
 
+TIP: The number of the data columns is currently limited to 10.
+
 === Explicit Assertions using JUnit 5
 
 You can use any of your favorite frameworks to do the assertions. In this example, you can use JUnit 5 `Assertions` class instead of simple evaluation of logical expression.

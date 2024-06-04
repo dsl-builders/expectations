@@ -17,8 +17,19 @@
  */
 package builders.dsl.expectations.dsl;
 
+/**
+ * Represents an assertion that takes one parameter.
+ *
+ * @param <A> the type of the parameter
+ */
+@FunctionalInterface
 public interface Verification1<A> {
 
+    /**
+     * Verifies the given parameter and throws an exception if the verification fails.
+     *
+     * @param a the parameter to verify
+     */
     void verify(A a);
 
 }

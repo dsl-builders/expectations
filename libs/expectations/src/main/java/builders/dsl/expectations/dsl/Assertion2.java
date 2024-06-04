@@ -17,9 +17,22 @@
  */
 package builders.dsl.expectations.dsl;
 
+/**
+ * Represents an assertion that takes two parameters.
+ *
+ * @param <A> the type of the first parameter
+ * @param <B> the type of the second parameter
+ */
 @FunctionalInterface
 public interface Assertion2<A, B> {
 
+    /**
+     * Verifies the given parameters.
+     *
+     * @param a the first parameter to verify
+     * @param b the second parameter to verify
+     * @return {@code true} if the test for the given parameters passes, {@code false} otherwise
+     */
     boolean verify(A a, B b);
 
 }

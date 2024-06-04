@@ -17,8 +17,31 @@
  */
 package builders.dsl.expectations.dsl;
 
+/**
+ * Represents an assertion that takes seven parameters.
+ *
+ * @param <A> the type of the first parameter
+ * @param <B> the type of the second parameter
+ * @param <C> the type of the third parameter
+ * @param <D> the type of the fourth parameter
+ * @param <E> the type of the fifth parameter
+ * @param <F> the type of the sixth parameter
+ * @param <G> the type of the seventh parameter
+ */
+@FunctionalInterface
 public interface Verification7<A, B, C, D, E, F, G> {
 
+    /**
+     * Verifies the given parameters and throws an exception if the verification fails.
+     *
+     * @param a the first parameter to verify
+     * @param b the second parameter to verify
+     * @param c the third parameter to verify
+     * @param d the fourth parameter to verify
+     * @param e the fifth parameter to verify
+     * @param f the sixth parameter to verify
+     * @param g the seventh parameter to verify
+     */
     void verify(A a, B b, C c, D d, E e, F f, G g);
 
 }

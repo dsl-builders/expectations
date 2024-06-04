@@ -39,7 +39,7 @@ public class Where3<A, B, C> {
         return new Expectations3<>(this, template, verification);
     }
 
-    public Expectations verify(String template, Verifcation3<A, B, C> verification) {
+    public Expectations verify(String template, Verification3<A, B, C> verification) {
         return new Expectations3<>(this, template, (a, b, c) -> {
             verification.verify(a, b, c);
             return true;

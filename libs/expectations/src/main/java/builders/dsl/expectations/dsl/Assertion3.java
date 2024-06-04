@@ -17,9 +17,24 @@
  */
 package builders.dsl.expectations.dsl;
 
+/**
+ * Represents an assertion that takes three parameters.
+ *
+ * @param <A> the type of the first parameter
+ * @param <B> the type of the second parameter
+ * @param <C> the type of the third parameter
+ */
 @FunctionalInterface
 public interface Assertion3<A, B, C> {
 
+    /**
+     * Verifies the given parameters.
+     *
+     * @param a the first parameter to verify
+     * @param b the second parameter to verify
+     * @param c the third parameter to verify
+     * @return {@code true} if the test for the given parameters passes, {@code false} otherwise
+     */
     boolean verify(A a, B b, C c);
 
 }

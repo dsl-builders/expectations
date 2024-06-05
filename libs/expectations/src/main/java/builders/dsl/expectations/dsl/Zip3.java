@@ -19,12 +19,26 @@ package builders.dsl.expectations.dsl;
 
 import java.util.Iterator;
 
+/**
+ * This class combines three iterables into an iterable of rows with three columns.
+ *
+ * @param <A> the type of the first column
+ * @param <B> the type of the second column
+ * @param <C> the type of the third column
+ */
 public class Zip3<A, B, C> implements Iterable<Row3<A, B, C>> {
 
     private final Iterator<A> iteratorA;
     private final Iterator<B> iteratorB;
     private final Iterator<C> iteratorC;
 
+    /**
+     * Creates a new iterable of rows with three columns.
+     *
+     * @param valuesA the values of the first column
+     * @param valuesB the values of the second column
+     * @param valuesC the values of the third column
+     */
     public Zip3(Iterator<A> valuesA, Iterator<B> valuesB, Iterator<C> valuesC) {
         this.iteratorA = valuesA;
         this.iteratorB = valuesB;

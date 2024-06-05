@@ -23,13 +23,20 @@ import org.junit.jupiter.api.DynamicContainer;
 import java.util.Collections;
 import java.util.Iterator;
 
+/**
+ * This class represents the parameterized dynamic test with four parameters.
+ * @param <A> the type of the first parameter
+ * @param <B> the type of the second parameter
+ * @param <C> the type of the third parameter
+ * @param <D> the type of the fourth parameter
+ */
 public class Expectations4<A, B, C, D> implements Expectations {
 
-        private final Where4<A, B, C, D> where;
+        private final DataTable4<A, B, C, D> where;
         private final String template;
         private final Assertion4<A, B, C, D> verification;
 
-        Expectations4(Where4<A, B, C, D> where, String template, Assertion4<A, B, C, D> verification) {
+        Expectations4(DataTable4<A, B, C, D> where, String template, Assertion4<A, B, C, D> verification) {
             this.where = where;
             this.template = template;
             this.verification = verification;

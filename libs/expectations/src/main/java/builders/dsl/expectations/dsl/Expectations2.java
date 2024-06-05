@@ -23,13 +23,18 @@ import org.junit.jupiter.api.DynamicContainer;
 import java.util.Collections;
 import java.util.Iterator;
 
+/**
+ * This class represents the parameterized dynamic test with two parameters.
+ * @param <A> the type of the first parameter
+ * @param <B> the type of the second parameter
+ */
 public class Expectations2<A, B> implements Expectations {
 
-        private final Where2<A, B> where;
+        private final DataTable2<A, B> where;
         private final String template;
         private final Assertion2<A, B> verification;
 
-        Expectations2(Where2<A, B> where, String template, Assertion2<A, B> verification) {
+        Expectations2(DataTable2<A, B> where, String template, Assertion2<A, B> verification) {
             this.where = where;
             this.template = template;
             this.verification = verification;

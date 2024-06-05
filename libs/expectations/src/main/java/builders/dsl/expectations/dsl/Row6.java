@@ -17,6 +17,16 @@
  */
 package builders.dsl.expectations.dsl;
 
+/**
+ * Represents a row with six elements.
+ *
+ * @param <A> the type of the first element
+ * @param <B> the type of the second element
+ * @param <C> the type of the third element
+ * @param <D> the type of the fourth element
+ * @param <E> the type of the fifth element
+ * @param <F> the type of the sixth element
+ */
 public class Row6<A, B, C, D, E, F> {
 
     private final A a;
@@ -26,6 +36,16 @@ public class Row6<A, B, C, D, E, F> {
     private final E e;
     private final F f;
 
+    /**
+     * Creates a new row with six elements.
+     *
+     * @param a the first element
+     * @param b the second element
+     * @param c the third element
+     * @param d the fourth element
+     * @param e the fifth element
+     * @param f the sixth element
+     */
     public Row6(A a, B b, C c, D d, E e, F f) {
         this.a = a;
         this.b = b;
@@ -35,26 +55,56 @@ public class Row6<A, B, C, D, E, F> {
         this.f = f;
     }
 
+    /**
+     * Returns the first element.
+     *
+     * @return the first element
+     */
     public A getA() {
         return a;
     }
 
+    /**
+     * Returns the second element.
+     *
+     * @return the second element
+     */
     public B getB() {
         return b;
     }
 
+    /**
+     * Returns the third element.
+     *
+     * @return the third element
+     */
     public C getC() {
         return c;
     }
 
+    /**
+     * Returns the fourth element.
+     *
+     * @return the fourth element
+     */
     public D getD() {
         return d;
     }
 
+    /**
+     * Returns the fifth element.
+     *
+     * @return the fifth element
+     */
     public E getE() {
         return e;
     }
 
+    /**
+     * Returns the sixth element.
+     *
+     * @return the sixth element
+     */
     public F getF() {
         return f;
     }

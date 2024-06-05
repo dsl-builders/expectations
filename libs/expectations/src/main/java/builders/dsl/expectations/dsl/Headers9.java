@@ -80,10 +80,10 @@ public class Headers9 {
         return i;
     }
 
-    public <A, B, C, D, E, F, G, H, I> Where9<A, B, C, D, E, F, G, H, I> are(A a, B b, C c, D d, E e, F f, G g, H h, I i) {
+    public <A, B, C, D, E, F, G, H, I> DataTable9<A, B, C, D, E, F, G, H, I> are(A a, B b, C c, D d, E e, F f, G g, H h, I i) {
         List<Row9<A, B, C, D, E, F, G, H, I>> rows = new ArrayList<>();
         rows.add(new Row9<>(a, b, c, d, e, f, g, h, i));
-        return new Where9<>(this, rows);
+        return new DataTable9<>(this, rows);
     }
 
 }

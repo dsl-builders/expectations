@@ -23,13 +23,26 @@ import org.junit.jupiter.api.DynamicContainer;
 import java.util.Collections;
 import java.util.Iterator;
 
+/**
+ * This class represents the parameterized dynamic test with ten parameters.
+ * @param <A> the type of the first parameter
+ * @param <B> the type of the second parameter
+ * @param <C> the type of the third parameter
+ * @param <D> the type of the fourth parameter
+ * @param <E> the type of the fifth parameter
+ * @param <F> the type of the sixth parameter
+ * @param <G> the type of the seventh parameter
+ * @param <H> the type of the eighth parameter
+ * @param <I> the type of the ninth parameter
+ * @param <J> the type of the tenth parameter
+ */
 public class Expectations10<A, B, C, D, E, F, G, H, I, J> implements Expectations {
 
-        private final Where10<A, B, C, D, E, F, G, H, I, J> where;
+        private final DataTable10<A, B, C, D, E, F, G, H, I, J> where;
         private final String template;
         private final Assertion10<A, B, C, D, E, F, G, H, I, J> verification;
 
-        Expectations10(Where10<A, B, C, D, E, F, G, H, I, J> where, String template, Assertion10<A, B, C, D, E, F, G, H, I, J> verification) {
+        Expectations10(DataTable10<A, B, C, D, E, F, G, H, I, J> where, String template, Assertion10<A, B, C, D, E, F, G, H, I, J> verification) {
             this.where = where;
             this.template = template;
             this.verification = verification;

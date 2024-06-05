@@ -1,11 +1,71 @@
-= Groovy Spreadsheet Builder
+= Expectations DSL Builder
 
-Spreadsheet builder provides convenient way how to create MS Excel OfficeOpenXML
-Documents (XSLX) focus not only on content side but also on easy styling. 
+This is a simple DSL builder for writing parametrized tests in JUnit 5 using `@TestFactory`
 
-Google Sheets are also supported indirectly (native Excel <=> Google conversion).
+== Installation
 
-See the link:http://spreadsheet.dsl.builders/[Full Documentation]
+Add this dependency into your application's `build.gradle` script:
 
-== Acknowledgement
-This project is inspired by http://www.craigburke.com/document-builder/[Groovy Document Builder]
+[source,indent=0,subs='attributes']
+.Gradle
+----
+plugins {
+  id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'builders.dsl:expectations:{project-version}'
+}
+
+----
+
+Or add the following dependency to your Maven project:
+
+[source,xml,indent=0,subs='verbatim,attributes']
+.Maven
+----
+<!-- Excel -->
+<dependency>
+  <groupId>builders.dsl</groupId>
+  <artifactId>expectations</artifactId>
+  <version>{project-version}</version>
+  <scope>test</scope>
+</dependency>
+----
+
+== Usage
+
+=== Implicit Assertions
+To create a parametrized test using Expectations DSL builder, you need to create a test method returning `Expectations` and annotate it with `@TestFactory` annotation.
+
+[source,java,indent=0,subs='verbatim,attributes']
+.Fluent Expectations
+----
+    @TestFactory                                                                        // <1>
+    Expectations basicTest3Fluent() {                                                   // <2>
+        Calculator calculator = new Calculator();
+
+        return given("a", "b", "c")                                                     // <3>
+                .are(2, 3, 5)                                                           // <4>
+                .and(3, 5, 8)
+                .and(4, 7, 11)
+                .expect(
+                        "#a + #b = #c",                                                 // <5>
+                        (a, b, c) -> calculator.add(a, b) == c                          // <6>
+                );
+    }
+----
+<1> Annotate method with `@TestFactory`
+<2> Make the method return `Expectations`
+<3> Define the parameters' headers using `given`
+<4> Define at least one data row using `are`
+<5> Define the test title template using the headers preceded by `#` to define the placeholders
+<6> Define the test
+
+
+See the link:http://expectations.dsl.builders/[Full Documentation] foe more information.
+

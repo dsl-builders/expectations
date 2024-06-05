@@ -25,20 +25,42 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class Where2<A, B> {
+/**
+ * Represents the data table of the parametrized test with two columns.
+ * @param <A> the type of the first column
+ * @param <B> the type of the second column
+ */
+public class DataTable2<A, B> {
 
     private final List<Row2<A, B>> data = new ArrayList<>();
     private final Headers2 headers;
 
-    public Where2(Headers2 headers, Iterable<Row2<A, B>> rows) {
+    /**
+     * Creates a new data table with two columns.
+     * @param headers the headers of the data table
+     * @param rows the rows of the data table
+     */
+    public DataTable2(Headers2 headers, Iterable<Row2<A, B>> rows) {
         this.headers = headers;
         rows.forEach(data::add);
     }
 
+    /**
+     * Creates a new expectation for the data table.
+     * @param template the template of the expectation where the placeholders are the headers of the data table prefixed with <code>#</code>
+     * @param verification the assertion that must return <code>true</code> for the expectation to pass
+     * @return the new expectation that can be used with {@link org.junit.jupiter.api.TestFactory} annotation to generate dynamic tests
+     */
     public Expectations expect(String template, Assertion2<A, B> verification) {
         return new Expectations2<>(this, template, verification);
     }
 
+    /**
+     * Creates a new expectation for the data table.
+     * @param template the template of the expectation where the placeholders are the headers of the data table prefixed with <code>#</code>
+     * @param verification the verification that uses any testing library to assert that the expectation is met
+     * @return the new expectation that can be used with {@link org.junit.jupiter.api.TestFactory} annotation to generate dynamic tests
+     */
     public Expectations verify(String template, Verification2<A, B> verification) {
         return new Expectations2<>(this, template, (a, b) -> {
             verification.verify(a, b);
@@ -46,7 +68,13 @@ public class Where2<A, B> {
         });
     }
 
-    public Where2<A, B> and(A a, B b) {
+    /**
+     * Adds a new row to the data table.
+     * @param a the value of the first column
+     * @param b the value of the second column
+     * @return self with the new row added
+     */
+    public DataTable2<A, B> and(A a, B b) {
         data.add(new Row2<>(a, b));
         return this;
     }

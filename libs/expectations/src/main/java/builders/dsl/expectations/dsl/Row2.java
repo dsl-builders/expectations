@@ -17,20 +17,42 @@
  */
 package builders.dsl.expectations.dsl;
 
+/**
+ * Represents a row with two elements.
+ *
+ * @param <A> the type of the first element
+ * @param <B> the type of the second element
+ */
 public class Row2<A, B> {
 
     private final A a;
     private final B b;
 
+    /**
+     * Creates a new row with two elements.
+     *
+     * @param a the first element
+     * @param b the second element
+     */
     public Row2(A a, B b) {
         this.a = a;
         this.b = b;
     }
 
+    /**
+     * Returns the first element.
+     *
+     * @return the first element
+     */
     public A getA() {
         return a;
     }
 
+    /**
+     * Returns the second element.
+     *
+     * @return the second element
+     */
     public B getB() {
         return b;
     }

@@ -25,21 +25,48 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class Where7<A, B, C, D, E, F, G> {
+/**
+ * Represents the data table of the parametrized test with seven columns.
+ * @param <A> the type of the first column
+ * @param <B> the type of the second column
+ * @param <C> the type of the third column
+ * @param <D> the type of the fourth column
+ * @param <E> the type of the fifth column
+ * @param <F> the type of the sixth column
+ * @param <G> the type of the seventh column
+ */
+public class DataTable7<A, B, C, D, E, F, G> {
 
 
     private final List<Row7<A, B, C, D, E, F, G>> data = new ArrayList<>();
     private final Headers7 headers;
 
-    public Where7(Headers7 headers, Iterable<Row7<A, B, C, D, E, F, G>> rows) {
+    /**
+     * Creates a new data table with seven columns.
+     * @param headers the headers of the data table
+     * @param rows the rows of the data table
+     */
+    public DataTable7(Headers7 headers, Iterable<Row7<A, B, C, D, E, F, G>> rows) {
         this.headers = headers;
         rows.forEach(data::add);
     }
 
+    /**
+     * Creates a new expectation for the data table.
+     * @param template the template of the expectation where the placeholders are the headers of the data table prefixed with <code>#</code>
+     * @param verification the assertion that must return <code>true</code> for the expectation to pass
+     * @return the new expectation that can be used with {@link org.junit.jupiter.api.TestFactory} annotation to generate dynamic tests
+     */
     public Expectations expect(String template, Assertion7<A, B, C, D, E, F, G> verification) {
         return new Expectations7<>(this, template, verification);
     }
 
+    /**
+     * Creates a new expectation for the data table.
+     * @param template the template of the expectation where the placeholders are the headers of the data table prefixed with <code>#</code>
+     * @param verification the assertion that must return <code>true</code> for the expectation to pass
+     * @return the new expectation that can be used with {@link org.junit.jupiter.api.TestFactory} annotation to generate dynamic tests
+     */
     public Expectations verify(String template, Verification7<A, B, C, D, E, F, G> verification) {
         return new Expectations7<>(this, template, (a, b, c, d, e, f, g) -> {
             verification.verify(a, b, c, d, e, f, g);
@@ -47,7 +74,17 @@ public class Where7<A, B, C, D, E, F, G> {
         });
     }
 
-    public Where7<A, B, C, D, E, F, G> and(A a, B b, C c, D d, E e, F f, G g) {
+    /**
+     * Adds a new row to the data table.
+     * @param a the first element
+     * @param b the second element
+     * @param c the third element
+     * @param d the fourth element
+     * @param e the fifth element
+     * @param f the sixth element
+     * @param g the seventh element
+     */
+    public DataTable7<A, B, C, D, E, F, G> and(A a, B b, C c, D d, E e, F f, G g) {
         data.add(new Row7<>(a, b, c, d, e, f, g));
         return this;
     }

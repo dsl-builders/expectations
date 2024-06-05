@@ -38,10 +38,10 @@ public class Headers2 {
         return b;
     }
 
-    public <A, B> Where2<A, B> are(A a, B b) {
+    public <A, B> DataTable2<A, B> are(A a, B b) {
         List<Row2<A, B>> rows = new ArrayList<>();
         rows.add(new Row2<>(a, b));
-        return new Where2<>(this, rows);
+        return new DataTable2<>(this, rows);
     }
 
 }

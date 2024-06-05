@@ -50,10 +50,10 @@ public class Headers4 {
         return d;
     }
 
-    public <A, B, C, D> Where4<A, B, C, D> are(A a, B b, C c, D d) {
+    public <A, B, C, D> DataTable4<A, B, C, D> are(A a, B b, C c, D d) {
         List<Row4<A, B, C, D>> rows = new ArrayList<>();
         rows.add(new Row4<>(a, b, c, d));
-        return new Where4<>(this, rows);
+        return new DataTable4<>(this, rows);
     }
 
 }

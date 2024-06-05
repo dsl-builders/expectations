@@ -53,10 +53,10 @@ public class Headers1 {
      * @param a the single value of the first parameter
      * @return the new data row with the single parameter
      */
-    public <A> Where1<A> is(A a) {
+    public <A> DataTable1<A> is(A a) {
         List<Row1<A>> rows = new ArrayList<>();
         rows.add(new Row1<>(a));
-        return new Where1<>(this, rows);
+        return new DataTable1<>(this, rows);
     }
 
 }

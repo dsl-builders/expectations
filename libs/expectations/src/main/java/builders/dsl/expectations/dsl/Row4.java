@@ -17,6 +17,14 @@
  */
 package builders.dsl.expectations.dsl;
 
+/**
+ * Represents a row with four elements.
+ *
+ * @param <A> the type of the first element
+ * @param <B> the type of the second element
+ * @param <C> the type of the third element
+ * @param <D> the type of the fourth element
+ */
 public class Row4<A, B, C, D> {
 
     private final A a;
@@ -24,6 +32,14 @@ public class Row4<A, B, C, D> {
     private final C c;
     private final D d;
 
+    /**
+     * Creates a new row with four elements.
+     *
+     * @param a the first element
+     * @param b the second element
+     * @param c the third element
+     * @param d the fourth element
+     */
     public Row4(A a, B b, C c, D d) {
         this.a = a;
         this.b = b;
@@ -31,18 +47,38 @@ public class Row4<A, B, C, D> {
         this.d = d;
     }
 
+    /**
+     * Returns the first element.
+     *
+     * @return the first element
+     */
     public A getA() {
         return a;
     }
 
+    /**
+     * Returns the second element.
+     *
+     * @return the second element
+     */
     public B getB() {
         return b;
     }
 
+    /**
+     * Returns the third element.
+     *
+     * @return the third element
+     */
     public C getC() {
         return c;
     }
 
+    /**
+     * Returns the fourth element.
+     *
+     * @return the fourth element
+     */
     public D getD() {
         return d;
     }

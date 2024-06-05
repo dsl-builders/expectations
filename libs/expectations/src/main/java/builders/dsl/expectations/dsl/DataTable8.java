@@ -25,20 +25,48 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class Where8<A, B, C, D, E, F, G, H> {
+/**
+ * Represents the data table of the parametrized test with eight columns.
+ * @param <A> the type of the first column
+ * @param <B> the type of the second column
+ * @param <C> the type of the third column
+ * @param <D> the type of the fourth column
+ * @param <E> the type of the fifth column
+ * @param <F> the type of the sixth column
+ * @param <G> the type of the seventh column
+ * @param <H> the type of the eighth column
+ */
+public class DataTable8<A, B, C, D, E, F, G, H> {
 
     private final List<Row8<A, B, C, D, E, F, G, H>> data = new ArrayList<>();
     private final Headers8 headers;
 
-    public Where8(Headers8 headers, Iterable<Row8<A, B, C, D, E, F, G, H>> rows) {
+    /**
+     * Creates a new data table with eight columns.
+     * @param headers the headers of the data table
+     * @param rows the rows of the data table
+     */
+    public DataTable8(Headers8 headers, Iterable<Row8<A, B, C, D, E, F, G, H>> rows) {
         this.headers = headers;
         rows.forEach(data::add);
     }
 
+    /**
+     * Creates a new expectation for the data table.
+     * @param template the template of the expectation where the placeholders are the headers of the data table prefixed with <code>#</code>
+     * @param verification the assertion that must return <code>true</code> for the expectation to pass
+     * @return the new expectation that can be used with {@link org.junit.jupiter.api.TestFactory} annotation to generate dynamic tests
+     */
     public Expectations expect(String template, Assertion8<A, B, C, D, E, F, G, H> verification) {
         return new Expectations8<>(this, template, verification);
     }
 
+    /**
+     * Creates a new expectation for the data table.
+     * @param template the template of the expectation where the placeholders are the headers of the data table prefixed with <code>#</code>
+     * @param verification the assertion that must return <code>true</code> for the expectation to pass
+     * @return the new expectation that can be used with {@link org.junit.jupiter.api.TestFactory} annotation to generate dynamic tests
+     */
     public Expectations verify(String template, Verification8<A, B, C, D, E, F, G, H> verification) {
         return new Expectations8<>(this, template, (a, b, c, d, e, f, g, h) -> {
             verification.verify(a, b, c, d, e, f, g, h);
@@ -46,7 +74,19 @@ public class Where8<A, B, C, D, E, F, G, H> {
         });
     }
 
-    public Where8<A, B, C, D, E, F, G, H> and(A a, B b, C c, D d, E e, F f, G g, H h) {
+    /**
+     * Adds a new row to the data table.
+     * @param a the value of the first column
+     * @param b the value of the second column
+     * @param c the value of the third column
+     * @param d the value of the fourth column
+     * @param e the value of the fifth column
+     * @param f the value of the sixth column
+     * @param g the value of the seventh column
+     * @param h the value of the eighth column
+     * @return the data table with the new row
+     */
+    public DataTable8<A, B, C, D, E, F, G, H> and(A a, B b, C c, D d, E e, F f, G g, H h) {
         data.add(new Row8<>(a, b, c, d, e, f, g, h));
         return this;
     }

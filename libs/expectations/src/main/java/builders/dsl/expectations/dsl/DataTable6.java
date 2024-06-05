@@ -25,20 +25,50 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class Where6<A, B, C, D, E, F> {
+/**
+ * Represents the data table of the parametrized test with six columns.
+ *
+ * @param <A> the type of the first column
+ * @param <B> the type of the second column
+ * @param <C> the type of the third column
+ * @param <D> the type of the fourth column
+ * @param <E> the type of the fifth column
+ * @param <F> the type of the sixth column
+ */
+public class DataTable6<A, B, C, D, E, F> {
 
     private final List<Row6<A, B, C, D, E, F>> data = new ArrayList<>();
     private final Headers6 headers;
 
-    public Where6(Headers6 headers, Iterable<Row6<A, B, C, D, E, F>> rows) {
+    /**
+     * Creates a new data table with six columns.
+     *
+     * @param headers the headers of the data table
+     * @param rows    the rows of the data table
+     */
+    public DataTable6(Headers6 headers, Iterable<Row6<A, B, C, D, E, F>> rows) {
         this.headers = headers;
         rows.forEach(data::add);
     }
 
+    /**
+     * Creates a new expectation for the data table.
+     *
+     * @param template     the template of the expectation where the placeholders are the headers of the data table prefixed with <code>#</code>
+     * @param verification the assertion that must return <code>true</code> for the expectation to pass
+     * @return the new expectation that can be used with {@link org.junit.jupiter.api.TestFactory} annotation to generate dynamic tests
+     */
     public Expectations expect(String template, Assertion6<A, B, C, D, E, F> verification) {
         return new Expectations6<>(this, template, verification);
     }
 
+    /**
+     * Creates a new expectation for the data table.
+     *
+     * @param template     the template of the expectation where the placeholders are the headers of the data table prefixed with <code>#</code>
+     * @param verification the assertion that must return <code>true</code> for the expectation to pass
+     * @return the new expectation that can be used with {@link org.junit.jupiter.api.TestFactory} annotation to generate dynamic tests
+     */
     public Expectations verify(String template, Verification6<A, B, C, D, E, F> verification) {
         return new Expectations6<>(this, template, (a, b, c, d, e, f) -> {
             verification.verify(a, b, c, d, e, f);
@@ -46,7 +76,18 @@ public class Where6<A, B, C, D, E, F> {
         });
     }
 
-    public Where6<A, B, C, D, E, F> and(A a, B b, C c, D d, E e, F f) {
+    /**
+     * Adds a new row to the data table.
+     *
+     * @param a the value of the first column
+     * @param b the value of the second column
+     * @param c the value of the third column
+     * @param d the value of the fourth column
+     * @param e the value of the fifth column
+     * @param f the value of the sixth column
+     * @return self with the new row added
+     */
+    public DataTable6<A, B, C, D, E, F> and(A a, B b, C c, D d, E e, F f) {
         data.add(new Row6<>(a, b, c, d, e, f));
         return this;
     }

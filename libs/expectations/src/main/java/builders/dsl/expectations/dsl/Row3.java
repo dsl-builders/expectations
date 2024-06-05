@@ -17,26 +17,55 @@
  */
 package builders.dsl.expectations.dsl;
 
+/**
+ * Represents a row with three elements.
+ *
+ * @param <A> the type of the first element
+ * @param <B> the type of the second element
+ * @param <C> the type of the third element
+ */
 public class Row3<A, B, C> {
 
     private final A a;
     private final B b;
     private final C c;
 
+    /**
+     * Creates a new row with three elements.
+     *
+     * @param a the first element
+     * @param b the second element
+     * @param c the third element
+     */
     public Row3(A a, B b, C c) {
         this.a = a;
         this.b = b;
         this.c = c;
     }
 
+    /**
+     * Returns the first element.
+     *
+     * @return the first element
+     */
     public A getA() {
         return a;
     }
 
+    /**
+     * Returns the second element.
+     *
+     * @return the second element
+     */
     public B getB() {
         return b;
     }
 
+    /**
+     * Returns the third element.
+     *
+     * @return the third element
+     */
     public C getC() {
         return c;
     }

@@ -17,14 +17,29 @@
  */
 package builders.dsl.expectations.dsl;
 
+/**
+ * Represents a row with one element.
+ *
+ * @param <A> the type of the element
+ */
 public class Row1<A> {
 
     private final A a;
 
+    /**
+     * Creates a new row with one element.
+     *
+     * @param a the element
+     */
     public Row1(A a) {
         this.a = a;
     }
 
+    /**
+     * Returns the element.
+     *
+     * @return the element
+     */
     public A getA() {
         return a;
     }

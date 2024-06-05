@@ -23,13 +23,23 @@ import org.junit.jupiter.api.DynamicContainer;
 import java.util.Collections;
 import java.util.Iterator;
 
+/**
+ * This class represents the parameterized dynamic test with seven parameters.
+ * @param <A> the type of the first parameter
+ * @param <B> the type of the second parameter
+ * @param <C> the type of the third parameter
+ * @param <D> the type of the fourth parameter
+ * @param <E> the type of the fifth parameter
+ * @param <F> the type of the sixth parameter
+ * @param <G> the type of the seventh parameter
+ */
 public class Expectations7<A, B, C, D, E, F, G> implements Expectations {
 
-        private final Where7<A, B, C, D, E, F, G> where;
+        private final DataTable7<A, B, C, D, E, F, G> where;
         private final String template;
         private final Assertion7<A, B, C, D, E, F, G> verification;
 
-        Expectations7(Where7<A, B, C, D, E, F, G> where, String template, Assertion7<A, B, C, D, E, F, G> verification) {
+        Expectations7(DataTable7<A, B, C, D, E, F, G> where, String template, Assertion7<A, B, C, D, E, F, G> verification) {
             this.where = where;
             this.template = template;
             this.verification = verification;

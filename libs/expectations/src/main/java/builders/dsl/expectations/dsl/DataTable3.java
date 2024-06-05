@@ -25,20 +25,43 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class Where3<A, B, C> {
+/**
+ * Represents the data table of the parametrized test with three columns.
+ * @param <A> the type of the first column
+ * @param <B> the type of the second column
+ * @param <C> the type of the third column
+ */
+public class DataTable3<A, B, C> {
 
     private final List<Row3<A, B, C>> data = new ArrayList<>();
     private final Headers3 headers;
 
-    public Where3(Headers3 headers, Iterable<Row3<A, B, C>> rows) {
+    /**
+     * Creates a new data table with three columns.
+     * @param headers the headers of the data table
+     * @param rows the rows of the data table
+     */
+    public DataTable3(Headers3 headers, Iterable<Row3<A, B, C>> rows) {
         this.headers = headers;
         rows.forEach(data::add);
     }
 
+    /**
+     * Creates a new expectation for the data table.
+     * @param template the template of the expectation where the placeholders are the headers of the data table prefixed with <code>#</code>
+     * @param verification the assertion that must return <code>true</code> for the expectation to pass
+     * @return the new expectation that can be used with {@link org.junit.jupiter.api.TestFactory} annotation to generate dynamic tests
+     */
     public Expectations expect(String template, Assertion3<A, B, C> verification) {
         return new Expectations3<>(this, template, verification);
     }
 
+    /**
+     * Creates a new expectation for the data table.
+     * @param template the template of the expectation where the placeholders are the headers of the data table prefixed with <code>#</code>
+     * @param verification the assertion that must return <code>true</code> for the expectation to pass
+     * @return the new expectation that can be used with {@link org.junit.jupiter.api.TestFactory} annotation to generate dynamic tests
+     */
     public Expectations verify(String template, Verification3<A, B, C> verification) {
         return new Expectations3<>(this, template, (a, b, c) -> {
             verification.verify(a, b, c);
@@ -46,7 +69,14 @@ public class Where3<A, B, C> {
         });
     }
 
-    public Where3<A, B, C> and(A a, B b, C c) {
+    /**
+     * Adds a new row to the data table.
+     * @param a the first element
+     * @param b the second element
+     * @param c the third element
+     * @return self with the new row added
+     */
+    public DataTable3<A, B, C> and(A a, B b, C c) {
         data.add(new Row3<>(a, b, c));
         return this;
     }

@@ -23,13 +23,24 @@ import org.junit.jupiter.api.DynamicContainer;
 import java.util.Collections;
 import java.util.Iterator;
 
+/**
+ * This class represents the parameterized dynamic test with eight parameters.
+ * @param <A> the type of the first parameter
+ * @param <B> the type of the second parameter
+ * @param <C> the type of the third parameter
+ * @param <D> the type of the fourth parameter
+ * @param <E> the type of the fifth parameter
+ * @param <F> the type of the sixth parameter
+ * @param <G> the type of the seventh parameter
+ * @param <H> the type of the eighth parameter
+ */
 public class Expectations8<A, B, C, D, E, F, G, H> implements Expectations {
 
-        private final Where8<A, B, C, D, E, F, G, H> where;
+        private final DataTable8<A, B, C, D, E, F, G, H> where;
         private final String template;
         private final Assertion8<A, B, C, D, E, F, G, H> verification;
 
-        Expectations8(Where8<A, B, C, D, E, F, G, H> where, String template, Assertion8<A, B, C, D, E, F, G, H> verification) {
+        Expectations8(DataTable8<A, B, C, D, E, F, G, H> where, String template, Assertion8<A, B, C, D, E, F, G, H> verification) {
             this.where = where;
             this.template = template;
             this.verification = verification;

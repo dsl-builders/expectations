@@ -23,13 +23,21 @@ import org.junit.jupiter.api.DynamicContainer;
 import java.util.Collections;
 import java.util.Iterator;
 
+/**
+ * This class represents the parameterized dynamic test with five parameters.
+ * @param <A> the type of the first parameter
+ * @param <B> the type of the second parameter
+ * @param <C> the type of the third parameter
+ * @param <D> the type of the fourth parameter
+ * @param <E> the type of the fifth parameter
+ */
 public class Expectations5<A, B, C, D, E> implements Expectations {
 
-        private final Where5<A, B, C, D, E> where;
+        private final DataTable5<A, B, C, D, E> where;
         private final String template;
         private final Assertion5<A, B, C, D, E> verification;
 
-        Expectations5(Where5<A, B, C, D, E> where, String template, Assertion5<A, B, C, D, E> verification) {
+        Expectations5(DataTable5<A, B, C, D, E> where, String template, Assertion5<A, B, C, D, E> verification) {
             this.where = where;
             this.template = template;
             this.verification = verification;

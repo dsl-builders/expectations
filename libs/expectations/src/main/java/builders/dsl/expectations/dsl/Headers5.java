@@ -56,10 +56,10 @@ public class Headers5 {
         return e;
     }
 
-    public <A, B, C, D, E> Where5<A, B, C, D, E> are(A a, B b, C c, D d, E e) {
+    public <A, B, C, D, E> DataTable5<A, B, C, D, E> are(A a, B b, C c, D d, E e) {
         List<Row5<A, B, C, D, E>> rows = new ArrayList<>();
         rows.add(new Row5<>(a, b, c, d, e));
-        return new Where5<>(this, rows);
+        return new DataTable5<>(this, rows);
     }
 
 }

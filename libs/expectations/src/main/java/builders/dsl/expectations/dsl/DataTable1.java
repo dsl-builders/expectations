@@ -25,20 +25,43 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class Where1<A> {
+/**
+ * This class represents the data table of the parametrized test with a single column.
+ */
+public class DataTable1<A> {
 
     private final List<Row1<A>> data = new ArrayList<>();
     private final Headers1 headers;
 
-    public Where1(Headers1 headers, Iterable<Row1<A>> rows) {
+    /**
+     * Creates a new data table with a single column.
+     *
+     * @param headers the headers of the data table
+     * @param rows    the rows of the data table
+     */
+    public DataTable1(Headers1 headers, Iterable<Row1<A>> rows) {
         this.headers = headers;
         rows.forEach(data::add);
     }
 
+    /**
+     * Creates a new expectation for the data table.
+     *
+     * @param template     the template of the expectation where the placeholders are the headers of the data table prefixed with <code>#</code>
+     * @param verification the assertion that must return <code>true</code> for the expectation to pass
+     * @return the new expectation that can be used with {@link org.junit.jupiter.api.TestFactory} annotation to generate dynamic tests
+     */
     public Expectations expect(String template, Assertion1<A> verification) {
         return new Expectations1<>(this, template, verification);
     }
 
+    /**
+     * Creates a new expectation for the data table.
+     *
+     * @param template     the template of the expectation where the placeholders are the headers of the data table prefixed with <code>#</code>
+     * @param verification the assertion that must return <code>true</code> for the expectation to pass
+     * @return the new expectation that can be used with {@link org.junit.jupiter.api.TestFactory} annotation to generate dynamic tests
+     */
     public Expectations verify(String template, Verification1<A> verification) {
         return new Expectations1<>(this, template, a -> {
             verification.verify(a);
@@ -46,7 +69,13 @@ public class Where1<A> {
         });
     }
 
-    public Where1<A> and(A a) {
+    /**
+     * Adds a new row to the data table.
+     *
+     * @param a the first element
+     * @return self with the new row added
+     */
+    public DataTable1<A> and(A a) {
         data.add(new Row1<>(a));
         return this;
     }

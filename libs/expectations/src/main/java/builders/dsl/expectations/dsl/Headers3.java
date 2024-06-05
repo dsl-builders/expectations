@@ -44,10 +44,10 @@ public class Headers3 {
         return c;
     }
 
-    public <A, B, C> Where3<A, B, C> are(A a, B b, C c) {
+    public <A, B, C> DataTable3<A, B, C> are(A a, B b, C c) {
         List<Row3<A, B, C>> rows = new ArrayList<>();
         rows.add(new Row3<>(a, b, c));
-        return new Where3<>(this, rows);
+        return new DataTable3<>(this, rows);
     }
 
 }

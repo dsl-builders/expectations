@@ -17,6 +17,20 @@
  */
 package builders.dsl.expectations.dsl;
 
+/**
+ * Represents a row with ten elements.
+ *
+ * @param <A> the type of the first element
+ * @param <B> the type of the second element
+ * @param <C> the type of the third element
+ * @param <D> the type of the fourth element
+ * @param <E> the type of the fifth element
+ * @param <F> the type of the sixth element
+ * @param <G> the type of the seventh element
+ * @param <H> the type of the eighth element
+ * @param <I> the type of the ninth element
+ * @param <J> the type of the tenth element
+ */
 public class Row10<A, B, C, D, E, F, G, H, I, J> {
 
     private final A a;
@@ -30,6 +44,20 @@ public class Row10<A, B, C, D, E, F, G, H, I, J> {
     private final I i;
     private final J j;
 
+    /**
+     * Creates a new row with ten elements.
+     *
+     * @param a the first element
+     * @param b the second element
+     * @param c the third element
+     * @param d the fourth element
+     * @param e the fifth element
+     * @param f the sixth element
+     * @param g the seventh element
+     * @param h the eighth element
+     * @param i the ninth element
+     * @param j the tenth element
+     */
     public Row10(A a, B b, C c, D d, E e, F f, G g, H h, I i, J j) {
         this.a = a;
         this.b = b;
@@ -43,42 +71,92 @@ public class Row10<A, B, C, D, E, F, G, H, I, J> {
         this.j = j;
     }
 
+    /**
+     * Returns the first element.
+     *
+     * @return the first element
+     */
     public A getA() {
         return a;
     }
 
+    /**
+     * Returns the second element.
+     *
+     * @return the second element
+     */
     public B getB() {
         return b;
     }
 
+    /**
+     * Returns the third element.
+     *
+     * @return the third element
+     */
     public C getC() {
         return c;
     }
 
+    /**
+     * Returns the fourth element.
+     *
+     * @return the fourth element
+     */
     public D getD() {
         return d;
     }
 
+    /**
+     * Returns the fifth element.
+     *
+     * @return the fifth element
+     */
     public E getE() {
         return e;
     }
 
+    /**
+     * Returns the sixth element.
+     *
+     * @return the sixth element
+     */
     public F getF() {
         return f;
     }
 
+    /**
+     * Returns the seventh element.
+     *
+     * @return the seventh element
+     */
     public G getG() {
         return g;
     }
 
+    /**
+     * Returns the eighth element.
+     *
+     * @return the eighth element
+     */
     public H getH() {
         return h;
     }
 
+    /**
+     * Returns the ninth element.
+     *
+     * @return the ninth element
+     */
     public I getI() {
         return i;
     }
 
+    /**
+     * Returns the tenth element.
+     *
+     * @return the tenth element
+     */
     public J getJ() {
         return j;
     }

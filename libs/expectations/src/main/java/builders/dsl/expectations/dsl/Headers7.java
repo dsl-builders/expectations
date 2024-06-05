@@ -68,10 +68,10 @@ public class Headers7 {
         return g;
     }
 
-    public <A, B, C, D, E, F, G> Where7<A, B, C, D, E, F, G> are(A a, B b, C c, D d, E e, F f, G g) {
+    public <A, B, C, D, E, F, G> DataTable7<A, B, C, D, E, F, G> are(A a, B b, C c, D d, E e, F f, G g) {
         List<Row7<A, B, C, D, E, F, G>> rows = new ArrayList<>();
         rows.add(new Row7<>(a, b, c, d, e, f, g));
-        return new Where7<>(this, rows);
+        return new DataTable7<>(this, rows);
     }
 
 }

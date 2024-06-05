@@ -62,10 +62,10 @@ public class Headers6 {
         return f;
     }
 
-    public <A, B, C, D, E, F> Where6<A, B, C, D, E, F> are(A a, B b, C c, D d, E e, F f) {
+    public <A, B, C, D, E, F> DataTable6<A, B, C, D, E, F> are(A a, B b, C c, D d, E e, F f) {
         List<Row6<A, B, C, D, E, F>> rows = new ArrayList<>();
         rows.add(new Row6<>(a, b, c, d, e, f));
-        return new Where6<>(this, rows);
+        return new DataTable6<>(this, rows);
     }
 
 }

@@ -86,10 +86,10 @@ public class Headers10 {
         return j;
     }
 
-    public <A, B, C, D, E, F, G, H, I, J> Where10<A, B, C, D, E, F, G, H, I, J> are(A a, B b, C c, D d, E e, F f, G g, H h, I i, J j) {
+    public <A, B, C, D, E, F, G, H, I, J> DataTable10<A, B, C, D, E, F, G, H, I, J> are(A a, B b, C c, D d, E e, F f, G g, H h, I i, J j) {
         List<Row10<A, B, C, D, E, F, G, H, I, J>> rows = new ArrayList<>();
         rows.add(new Row10<>(a, b, c, d, e, f, g, h, i, j));
-        return new Where10<>(this, rows);
+        return new DataTable10<>(this, rows);
     }
 
 }

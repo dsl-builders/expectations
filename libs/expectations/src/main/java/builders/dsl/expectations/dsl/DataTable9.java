@@ -25,20 +25,53 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class Where9<A, B, C, D, E, F, G, H, I> {
+/**
+ * Represents the data table of the parametrized test with nine columns.
+ *
+ * @param <A> the type of the first column
+ * @param <B> the type of the second column
+ * @param <C> the type of the third column
+ * @param <D> the type of the fourth column
+ * @param <E> the type of the fifth column
+ * @param <F> the type of the sixth column
+ * @param <G> the type of the seventh column
+ * @param <H> the type of the eighth column
+ * @param <I> the type of the ninth column
+ */
+public class DataTable9<A, B, C, D, E, F, G, H, I> {
 
     private final List<Row9<A, B, C, D, E, F, G, H, I>> data = new ArrayList<>();
     private final Headers9 headers;
 
-    public Where9(Headers9 headers, Iterable<Row9<A, B, C, D, E, F, G, H, I>> rows) {
+    /**
+     * Creates a new data table with nine columns.
+     *
+     * @param headers the headers of the data table
+     * @param rows    the rows of the data table
+     */
+    public DataTable9(Headers9 headers, Iterable<Row9<A, B, C, D, E, F, G, H, I>> rows) {
         this.headers = headers;
         rows.forEach(data::add);
     }
 
+    /**
+     * Creates a new expectation for the data table.
+     *
+     * @param template     the template of the expectation where the placeholders are the headers of the data table prefixed with <code>#</code>
+     * @param verification the assertion that must return <code>true</code> for the expectation to pass
+     * @return the new expectation that can be used with {@link org.junit.jupiter.api.TestFactory} annotation to generate dynamic tests
+     */
     public Expectations expect(String template, Assertion9<A, B, C, D, E, F, G, H, I> verification) {
         return new Expectations9<>(this, template, verification);
     }
 
+    /**
+     * Creates a new expectation for the data table.
+     *
+     * @param template     the template of the expectation where the placeholders are the headers of the data table prefixed with <code>#</code>
+     * @param verification the assertion that must return <code>true</code> for the expectation to pass
+     * @return the new expectation that can be used with {@link org.junit.jupiter.api.TestFactory} annotation to generate dynamic tests
+     */
     public Expectations verify(String template, Verification9<A, B, C, D, E, F, G, H, I> verification) {
         return new Expectations9<>(this, template, (a, b, c, d, e, f, g, h, i) -> {
             verification.verify(a, b, c, d, e, f, g, h, i);
@@ -46,7 +79,21 @@ public class Where9<A, B, C, D, E, F, G, H, I> {
         });
     }
 
-    public Where9<A, B, C, D, E, F, G, H, I> and(A a, B b, C c, D d, E e, F f, G g, H h, I i) {
+    /**
+     * Adds a new row to the data table.
+     *
+     * @param a the first element
+     * @param b the second element
+     * @param c the third element
+     * @param d the fourth element
+     * @param e the fifth element
+     * @param f the sixth element
+     * @param g the seventh element
+     * @param h the eighth element
+     * @param i the ninth element
+     * @return the current data table
+     */
+    public DataTable9<A, B, C, D, E, F, G, H, I> and(A a, B b, C c, D d, E e, F f, G g, H h, I i) {
         data.add(new Row9<>(a, b, c, d, e, f, g, h, i));
         return this;
     }

@@ -4,7 +4,7 @@ This is a simple DSL builder for writing parametrized tests in JUnit 5 using `@T
 
 == Installation
 
-Add this dependency into your application's `build.gradle` script:
+Add this dependency into your application's `build.gradle` script  with the latest version of the library):
 
 [source,indent=0,subs='attributes']
 .Gradle
@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'builders.dsl:expectations:{project-version}'
+    testImplementation 'builders.dsl:expectations:1.0.0'
 }
 
 ----
@@ -28,11 +28,10 @@ Or add the following dependency to your Maven project:
 [source,xml,indent=0,subs='verbatim,attributes']
 .Maven
 ----
-<!-- Excel -->
 <dependency>
   <groupId>builders.dsl</groupId>
   <artifactId>expectations</artifactId>
-  <version>{project-version}</version>
+  <version>1.0.0</version>
   <scope>test</scope>
 </dependency>
 ----

@@ -84,7 +84,7 @@ If you for any reason want to execute all the assertions as a single test method
 include::{root-dir}/libs/expectations/src/test/java/builders/dsl/expectations/ExpectationsTest.java[tag=immediately-verify]
 ----
 <1> Annotate method with `@Test`
-<2> Use `verify()` method to execute all the assertions
+<2> Use `evaluate()` method to execute all the assertions
 
 == Using More Dynamic Parameters
 

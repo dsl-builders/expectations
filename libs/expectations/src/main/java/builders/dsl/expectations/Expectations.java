@@ -79,7 +79,7 @@ import java.util.stream.Stream;
  * </p>
  *
  * <p>
- *     if you need to verify immediately then you can call {@link #verify()} method. This can be useful when you want to
+ *     if you need to evaluate immediately then you can call {@link #evaluate()} method. This can be useful when you want to
  *     need to verify multiple conditions in the middle of your test method or to create a stepwise tests with parametrized steps.
  * </p>
  */
@@ -823,10 +823,10 @@ public interface Expectations extends Iterable<DynamicContainer> {
     }
 
     /**
-     * Immediately verifies all the rows of the data table and throws {@link MultipleFailuresError} if any of them fails.
+     * Immediately evaluates the expectations for all the rows of the data table and throws {@link MultipleFailuresError} if any of them fails.
      * @throws MultipleFailuresError if any of the rows fails
      */
-    default void verify() {
+    default void evaluate() {
         List<Throwable> errors = new ArrayList<>();
         iterator().forEachRemaining(container -> container.getChildren().filter(DynamicTest.class::isInstance).forEach(test -> {
             try {

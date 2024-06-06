@@ -48,7 +48,7 @@ class ExpectationsTest {
                 .is(2)
                 .and(3)
                 .expect("#a + 0 = #a", a -> calculator.add(a, 0) == a)
-                .verify();
+                .evaluate();
     }
 
     @Test
@@ -60,7 +60,7 @@ class ExpectationsTest {
                     .is(4)
                     .and(3)
                     .expect("#a + 1 = #a", a -> calculator.add(a, 1) == a)
-                    .verify();
+                    .evaluate();
         });
     }
 
@@ -127,7 +127,7 @@ class ExpectationsTest {
                     .are(2, 3)
                     .and(3, 2)
                     .expect("#a + #b = 6", (a, b) -> calculator.add(a, b) == 6)
-                    .verify();
+                    .evaluate();
         });
     }
 
@@ -195,7 +195,7 @@ class ExpectationsTest {
                     .and(3, 5, 9)
                     .and(4, 7, 11)
                     .expect("#a + #b = #c", (a, b, c) -> calculator.add(a, b) == c)
-                    .verify();                                                          // <2>
+                    .evaluate();                                                          // <2>
         });
     }
     // end::immediately-verify[]
@@ -265,7 +265,7 @@ class ExpectationsTest {
                     .and(3, 5, 8, 17)
                     .and(4, 7, 11, 23)
                     .expect("#a + #b + #c = #d", (a, b, c, d) -> calculator.add(a, b, c) == d)
-                    .verify();
+                    .evaluate();
         });
     }
 
@@ -331,7 +331,7 @@ class ExpectationsTest {
                     .and(3, 5, 8, 16, 33)
                     .and(4, 7, 11, 22, 45)
                     .expect("#a + #b + #c + #d = #e", (a, b, c, d, e) -> calculator.add(a, b, c, d) == e)
-                    .verify();
+                    .evaluate();
         });
     }
 
@@ -399,7 +399,7 @@ class ExpectationsTest {
                     .and(3, 5, 8, 16, 32, 65)
                     .and(4, 7, 11, 22, 44, 89)
                     .expect("#a + #b + #c + #d + #e = #f", (a, b, c, d, e, f) -> calculator.add(a, b, c, d, e) == f)
-                    .verify();
+                    .evaluate();
         });
     }
 
@@ -469,7 +469,7 @@ class ExpectationsTest {
                     .and(3, 5, 8, 16, 32, 64, 129)
                     .and(4, 7, 11, 22, 44, 88, 177)
                     .expect("#a + #b + #c + #d + #e + #f = #g", (a, b, c, d, e, f, g) -> calculator.add(a, b, c, d, e, f) == g)
-                    .verify();
+                    .evaluate();
         });
     }
 
@@ -541,7 +541,7 @@ class ExpectationsTest {
                     .and(3, 5, 8, 16, 32, 64, 128, 257)
                     .and(4, 7, 11, 22, 44, 88, 176, 353)
                     .expect("#a + #b + #c + #d + #e + #f + #g = #h", (a, b, c, d, e, f, g, h) -> calculator.add(a, b, c, d, e, f, g) == h)
-                    .verify();
+                    .evaluate();
         });
     }
 
@@ -615,7 +615,7 @@ class ExpectationsTest {
                     .and(3, 5, 8, 16, 32, 64, 128, 256, 511)
                     .and(4, 7, 11, 22, 44, 88, 176, 352, 703)
                     .expect("#a + #b + #c + #d + #e + #f + #g + #h = #i", (a, b, c, d, e, f, g, h, i) -> calculator.add(a, b, c, d, e, f, g, h) == i)
-                    .verify();
+                    .evaluate();
         });
     }
 
@@ -704,7 +704,7 @@ class ExpectationsTest {
                     .and(3, 5, 8, 16, 32, 64, 128, 256, 512, 1025)
                     .and(4, 7, 11, 22, 44, 88, 176, 352, 704, 1409)
                     .expect("#a + #b + #c + #d + #e + #f + #g + #h + #i = #j", (a, b, c, d, e, f, g, h, i, j) -> calculator.add(a, b, c, d, e, f, g, h, i) == j)
-                    .verify();
+                    .evaluate();
         });
     }
 

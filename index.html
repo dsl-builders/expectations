@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<title>Expectations DSL Builder</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<link rel="stylesheet" href="./asciidoctor.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/expectations-builder.css?v=1.0.0-rc2" />
+<link rel="stylesheet" href="css/codeBlockSwitch.css?v=1.0.0-rc2" />
+<script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+<script src="js/codeBlockSwitch.js?v=1.0.0-rc2"></script>
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-68778580-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+<style>
+.hidden {
+    display: none;
+}
+
+.switch {
+    border-width: 1px 1px 0 1px;
+    border-style: solid;
+    border-color: #7a2518;
+    display: inline-block;
+}
+
+.switch--item {
+    padding: 10px;
+    background-color: #ffffff;
+    color: #7a2518;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.switch--item.selected {
+    background-color: #7a2519;
+    color: #ffffff;
+}
+
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
+<script type="text/javascript">
+function addBlockSwitches() {
+    $('.primary').each(function() {
+        primary = $(this);
+        createSwitchItem(primary, createBlockSwitch(primary)).item.addClass("selected");
+        primary.children('.title').remove();
+    });
+    $('.secondary').each(function(idx, node) {
+        secondary = $(node);
+        primary = findPrimary(secondary);
+        switchItem = createSwitchItem(secondary, primary.children('.switch'));
+        switchItem.content.addClass('hidden');
+        findPrimary(secondary).append(switchItem.content);
+        secondary.remove();
+    });
+}
+
+function createBlockSwitch(primary) {
+    blockSwitch = $('<div class="switch"></div>');
+    primary.prepend(blockSwitch);
+    return blockSwitch;
+}
+
+function findPrimary(secondary) {
+    candidate = secondary.prev();
+    while (!candidate.is('.primary')) {
+        candidate = candidate.prev();
+    }
+    return candidate;
+}
+
+function createSwitchItem(block, blockSwitch) {
+    blockName = block.children('.title').text();
+    content = block.children('.content').first().append(block.next('.colist'));
+    item = $('<div class="switch--item">' + blockName + '</div>');
+    item.on('click', '', content, function(e) {
+        $(this).addClass('selected');
+        $(this).siblings().removeClass('selected');
+        e.data.siblings('.content').addClass('hidden');
+        e.data.removeClass('hidden');
+    });
+    blockSwitch.append(item);
+    return {'item': item, 'content': content};
+}
+
+$(addBlockSwitches);
+
+</script>
+
+</head>
+<body class="book toc2 toc-left">
+<div id="header">
+<h1>Expectations DSL Builder</h1>
+<div class="details">
+<span id="revnumber">version 1.0.0-rc2</span>
+</div>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_installation">1. Installation</a></li>
+<li><a href="#_usage">2. Usage</a>
+<ul class="sectlevel2">
+<li><a href="#_implicit_assertions">2.1. Implicit Assertions</a></li>
+<li><a href="#_explicit_assertions_using_junit_5">2.2. Explicit Assertions using JUnit 5</a></li>
+</ul>
+</li>
+<li><a href="#_immediately_verify_expectations">3. Immediately Verify Expectations</a></li>
+<li><a href="#_using_more_dynamic_parameters">4. Using More Dynamic Parameters</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="imageblock ribbon">
+<div class="content">
+<a class="image" href="https://github.com/dsl-builders/expectations"><img src="images/ribbon.png" alt="ribbon"></a>
+</div>
+</div>
+<div class="paragraph">
+<p>Expectations DSL builder provides simple yet powerful way how to create parametrized test in JUnit 5 using <code>@TestFactory</code> annotation.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_installation"><a class="anchor" href="#_installation"></a>1. Installation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Expectations DSL builder is available on Maven Central.</p>
+</div>
+<div class="listingblock primary">
+<div class="title">Gradle</div>
+<div class="content">
+<pre class="prettyprint highlight"><code>plugins {
+  id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'builders.dsl:expectations:1.0.0-rc2'
+}</code></pre>
+</div>
+</div>
+<div class="listingblock secondary">
+<div class="title">Maven</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="xml">&lt;!-- Excel --&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;builders.dsl&lt;/groupId&gt;
+  &lt;artifactId&gt;expectations&lt;/artifactId&gt;
+  &lt;version&gt;1.0.0-rc2&lt;/version&gt;
+  &lt;scope&gt;test&lt;/scope&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_usage"><a class="anchor" href="#_usage"></a>2. Usage</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_implicit_assertions"><a class="anchor" href="#_implicit_assertions"></a>2.1. Implicit Assertions</h3>
+<div class="paragraph">
+<p>To create a parametrized test using Expectations DSL builder, you need to create a test method returning <code>Expectations</code> and annotate it with <code>@TestFactory</code> annotation.</p>
+</div>
+<div class="listingblock">
+<div class="title">Fluent Expectations</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">@TestFactory                                                                        <i class="conum" data-value="1"></i><b>(1)</b>
+Expectations basicTest3Fluent() {                                                   <i class="conum" data-value="2"></i><b>(2)</b>
+    Calculator calculator = new Calculator();
+
+    return given("a", "b", "c")                                                     <i class="conum" data-value="3"></i><b>(3)</b>
+            .are(2, 3, 5)                                                           <i class="conum" data-value="4"></i><b>(4)</b>
+            .and(3, 5, 8)
+            .and(4, 7, 11)
+            .expect(
+                    "#a + #b = #c",                                                 <i class="conum" data-value="5"></i><b>(5)</b>
+                    (a, b, c) -&gt; calculator.add(a, b) == c                          <i class="conum" data-value="6"></i><b>(6)</b>
+            );
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Annotate method with <code>@TestFactory</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Make the method return <code>Expectations</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Define the parameters' headers using <code>given</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Define at least one data row using <code>are</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Define the test title template using the headers preceded by <code>#</code> to define the placeholders</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>Define the test</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Depending on your IDE the results will look similar to this picture:</p>
+</div>
+<div class="imageblock fluent-results">
+<div class="content">
+<img src="images/fluent-results.png" alt="fluent results">
+</div>
+<div class="title">Figure 1. Fluent Expectations Results</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+The number of the data columns is currently limited to 10.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_explicit_assertions_using_junit_5"><a class="anchor" href="#_explicit_assertions_using_junit_5"></a>2.2. Explicit Assertions using JUnit 5</h3>
+<div class="paragraph">
+<p>You can use any of your favorite frameworks to do the assertions. In this example, you can use JUnit 5 <code>Assertions</code> class instead of simple evaluation of logical expression.</p>
+</div>
+<div class="listingblock">
+<div class="title">JUnit 5 Assertions</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">@TestFactory
+Expectations basicTest3FluentVerify() {
+    Calculator calculator = new Calculator();
+
+    return given("a", "b", "c")
+            .are(2, 3, 5)
+            .and(3, 5, 8)
+            .and(4, 7, 11)
+            .verify("#a + #b = #c", (a, b, c) -&gt;
+                    assertEquals((int) c, calculator.add(a, b))                     <i class="conum" data-value="1"></i><b>(1)</b>
+            );
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Use <code>assertEquals</code> to verify the expected value</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_immediately_verify_expectations"><a class="anchor" href="#_immediately_verify_expectations"></a>3. Immediately Verify Expectations</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If you for any reason want to execute all the assertions as a single test method, you can annotate the method with <code>@Test</code> and use <code>verify()</code> method on the <code>Expectations</code> object.</p>
+</div>
+<div class="listingblock">
+<div class="title">Immediately Verify Expectations</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">@Test                                                                               <i class="conum" data-value="1"></i><b>(1)</b>
+void basicTest3FluentFails() {
+    Assertions.assertThrows(MultipleFailuresError.class, () -&gt; {
+        Calculator calculator = new Calculator();
+
+        given("a", "b", "c")
+                .are(2, 3, 6)
+                .and(3, 5, 9)
+                .and(4, 7, 11)
+                .expect("#a + #b = #c", (a, b, c) -&gt; calculator.add(a, b) == c)
+                .evaluate();                                                          <i class="conum" data-value="2"></i><b>(2)</b>
+    });
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Annotate method with <code>@Test</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Use <code>evaluate()</code> method to execute all the assertions</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_more_dynamic_parameters"><a class="anchor" href="#_using_more_dynamic_parameters"></a>4. Using More Dynamic Parameters</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can also define the parameter values using <code>Stream</code> or <code>Iterable</code> objects. In that case the given method will alter header and <code>Stream</code> or <code>Iterable</code> to define the data rows.</p>
+</div>
+<div class="listingblock">
+<div class="title">Dynamic Parameters</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">@TestFactory
+Expectations basicTest3WithStreams() {
+    Calculator calculator = new Calculator();
+
+    return Expectations.given(
+            "a", Stream.of(2, 3, 4),                                                <i class="conum" data-value="1"></i><b>(1)</b>
+            "b", Stream.of(3, 5, 7),
+            "c", Stream.of(5, 8, 11)
+    ).expect("#a + #b = #c", (a, b, c) -&gt;
+            calculator.add(a, b) == c
+    );
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Define the parameters using the pair of header and <code>Stream</code> object</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Version 1.0.0-rc2<br>
+Last updated 2024-06-06 05:57:16 UTC
+</div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.min.js"></script>
+</body>
+</html>

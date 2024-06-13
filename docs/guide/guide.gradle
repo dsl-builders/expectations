@@ -31,7 +31,6 @@ config {
 }
 
 asciidoctor {
-    configurations 'asciidoctorExtensions'
     baseDirFollowsSourceFile()
 
     attributes = [

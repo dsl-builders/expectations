@@ -9,10 +9,10 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <link rel="stylesheet" href="./asciidoctor.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="css/expectations-builder.css?v=1.0.0-rc2" />
-<link rel="stylesheet" href="css/codeBlockSwitch.css?v=1.0.0-rc2" />
+<link rel="stylesheet" href="css/expectations-builder.css?v=1.0.0-rc4" />
+<link rel="stylesheet" href="css/codeBlockSwitch.css?v=1.0.0-rc4" />
 <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
-<script src="js/codeBlockSwitch.js?v=1.0.0-rc2"></script>
+<script src="js/codeBlockSwitch.js?v=1.0.0-rc4"></script>
 <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
                 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -23,88 +23,12 @@
     ga('send', 'pageview');
 
 </script>
-<style>
-.hidden {
-    display: none;
-}
-
-.switch {
-    border-width: 1px 1px 0 1px;
-    border-style: solid;
-    border-color: #7a2518;
-    display: inline-block;
-}
-
-.switch--item {
-    padding: 10px;
-    background-color: #ffffff;
-    color: #7a2518;
-    display: inline-block;
-    cursor: pointer;
-}
-
-.switch--item.selected {
-    background-color: #7a2519;
-    color: #ffffff;
-}
-
-</style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
-<script type="text/javascript">
-function addBlockSwitches() {
-    $('.primary').each(function() {
-        primary = $(this);
-        createSwitchItem(primary, createBlockSwitch(primary)).item.addClass("selected");
-        primary.children('.title').remove();
-    });
-    $('.secondary').each(function(idx, node) {
-        secondary = $(node);
-        primary = findPrimary(secondary);
-        switchItem = createSwitchItem(secondary, primary.children('.switch'));
-        switchItem.content.addClass('hidden');
-        findPrimary(secondary).append(switchItem.content);
-        secondary.remove();
-    });
-}
-
-function createBlockSwitch(primary) {
-    blockSwitch = $('<div class="switch"></div>');
-    primary.prepend(blockSwitch);
-    return blockSwitch;
-}
-
-function findPrimary(secondary) {
-    candidate = secondary.prev();
-    while (!candidate.is('.primary')) {
-        candidate = candidate.prev();
-    }
-    return candidate;
-}
-
-function createSwitchItem(block, blockSwitch) {
-    blockName = block.children('.title').text();
-    content = block.children('.content').first().append(block.next('.colist'));
-    item = $('<div class="switch--item">' + blockName + '</div>');
-    item.on('click', '', content, function(e) {
-        $(this).addClass('selected');
-        $(this).siblings().removeClass('selected');
-        e.data.siblings('.content').addClass('hidden');
-        e.data.removeClass('hidden');
-    });
-    blockSwitch.append(item);
-    return {'item': item, 'content': content};
-}
-
-$(addBlockSwitches);
-
-</script>
-
 </head>
 <body class="book toc2 toc-left">
 <div id="header">
 <h1>Expectations DSL Builder</h1>
 <div class="details">
-<span id="revnumber">version 1.0.0-rc2</span>
+<span id="revnumber">version 1.0.0-rc4</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -152,7 +76,7 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'builders.dsl:expectations:1.0.0-rc2'
+    testImplementation 'builders.dsl:expectations:1.0.0-rc4'
 }</code></pre>
 </div>
 </div>
@@ -163,7 +87,7 @@ dependencies {
 &lt;dependency&gt;
   &lt;groupId&gt;builders.dsl&lt;/groupId&gt;
   &lt;artifactId&gt;expectations&lt;/artifactId&gt;
-  &lt;version&gt;1.0.0-rc2&lt;/version&gt;
+  &lt;version&gt;1.0.0-rc4&lt;/version&gt;
   &lt;scope&gt;test&lt;/scope&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
@@ -283,10 +207,10 @@ Expectations basicTest3FluentVerify() {
 <h2 id="_immediately_verify_expectations"><a class="anchor" href="#_immediately_verify_expectations"></a>3. Immediately Verify Expectations</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>If you for any reason want to execute all the assertions as a single test method, you can annotate the method with <code>@Test</code> and use <code>verify()</code> method on the <code>Expectations</code> object.</p>
+<p>If you for any reason want to execute all the assertions as a single test method, you can annotate the method with <code>@Test</code> and use <code>evaluate()</code> method on the <code>Expectations</code> object.</p>
 </div>
 <div class="listingblock">
-<div class="title">Immediately Verify Expectations</div>
+<div class="title">Immediately Evaluate Expectations</div>
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="java">@Test                                                                               <i class="conum" data-value="1"></i><b>(1)</b>
 void basicTest3FluentFails() {
@@ -353,8 +277,8 @@ Expectations basicTest3WithStreams() {
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.0.0-rc2<br>
-Last updated 2024-06-06 05:57:16 UTC
+Version 1.0.0-rc4<br>
+Last updated 2024-06-13 12:41:55 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">

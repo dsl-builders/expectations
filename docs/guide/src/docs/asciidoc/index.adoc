@@ -76,10 +76,10 @@ include::{root-dir}/libs/expectations/src/test/java/builders/dsl/expectations/Ex
 
 == Immediately Verify Expectations
 
-If you for any reason want to execute all the assertions as a single test method, you can annotate the method with `@Test` and use `verify()` method on the `Expectations` object.
+If you for any reason want to execute all the assertions as a single test method, you can annotate the method with `@Test` and use `evaluate()` method on the `Expectations` object.
 
 [source,java,indent=0,subs='verbatim,attributes']
-.Immediately Verify Expectations
+.Immediately Evaluate Expectations
 ----
 include::{root-dir}/libs/expectations/src/test/java/builders/dsl/expectations/ExpectationsTest.java[tag=immediately-verify]
 ----

@@ -1,7 +1,7 @@
 /*
  * SPDX-License-Identifier: Apache-2.0
  *
- * Copyright 2024 Vladimir Orany.
+ * Copyright 2024-2025 Vladimir Orany.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,6 +40,6 @@ public interface Verification6<A, B, C, D, E, F> {
      * @param e the fifth parameter to verify
      * @param f the sixth parameter to verify
      */
-    void verify(A a, B b, C c, D d, E e, F f);
+    void verify(A a, B b, C c, D d, E e, F f) throws Throwable;
 
 }

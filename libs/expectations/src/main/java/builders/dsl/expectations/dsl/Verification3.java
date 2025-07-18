@@ -1,7 +1,7 @@
 /*
  * SPDX-License-Identifier: Apache-2.0
  *
- * Copyright 2024 Vladimir Orany.
+ * Copyright 2024-2025 Vladimir Orany.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ public interface Verification3<A, B, C> {
      * @param b the second parameter to verify
      * @param c the third parameter to verify
      */
-    void verify(A a, B b, C c);
+    void verify(A a, B b, C c) throws Throwable;
 
 }
 

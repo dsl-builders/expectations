@@ -1,7 +1,7 @@
 /*
  * SPDX-License-Identifier: Apache-2.0
  *
- * Copyright 2024 Vladimir Orany.
+ * Copyright 2024-2025 Vladimir Orany.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,6 +39,6 @@ public interface Assertion5<A, B, C, D, E> {
      * @param e the fifth parameter to verify
      * @return {@code true} if the test for the given parameters passes, {@code false} otherwise
      */
-    boolean verify(A a, B b, C c, D d, E e);
+    boolean verify(A a, B b, C c, D d, E e) throws Throwable;
 
 }

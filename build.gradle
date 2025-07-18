@@ -15,6 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+buildscript {
+    configurations.all {
+        resolutionStrategy {
+            force 'org.bouncycastle:bcpg-jdk15on:1.70'
+            force 'org.bouncycastle:bcprov-jdk15on:1.70'
+        }
+    }
+}
+
 plugins {
     id 'org.kordamp.gradle.java-project'
     id 'org.kordamp.gradle.checkstyle'
@@ -168,13 +177,6 @@ subprojects { subproject ->
             }
         }
 
-    }
-
-    configurations.all {
-        resolutionStrategy {
-            force 'org.bouncycastle:bcpg-jdk15on:1.70'
-            force 'org.bouncycastle:bcprov-jdk15on:1.70'
-        }
     }
 
     signing {

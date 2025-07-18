@@ -22,11 +22,11 @@ plugins {
     id 'org.kordamp.gradle.coveralls'
 }
 
-if (!project.hasProperty('mavenCentralUsername'))   ext.mavenCentralUsername    = System.getenv('MAVEN_CENTRAL_USERNAME') ?: '**UNDEFINED**'
-if (!project.hasProperty('mavenCentralPassword'))   ext.mavenCentralPassword    = System.getenv('MAVEN_CENTRAL_PASSWORD') ?: '**UNDEFINED**'
-if (!project.hasProperty('signingKeyId'))           ext.signingKeyId            = System.getenv('SIGNING_KEY_ID') ?: '**UNDEFINED**'
-if (!project.hasProperty('signingPassword'))        ext.signingPassword         = System.getenv('SIGNING_PASSWORD') ?: '**UNDEFINED**'
-if (!project.hasProperty('signingSecretKey'))       ext.signingSecretKey        = System.getenv('SIGNING_SECRET_KEY_PATH') ? rootProject.file(System.getenv('SIGNING_SECRET_KEY_PATH')).text : '**UNDEFINED**'
+if (!project.hasProperty('mavenCentralUsername'))       ext.mavenCentralUsername            = System.getenv('MAVEN_CENTRAL_USERNAME') ?: '**UNDEFINED**'
+if (!project.hasProperty('mavenCentralPassword'))       ext.mavenCentralPassword            = System.getenv('MAVEN_CENTRAL_PASSWORD') ?: '**UNDEFINED**'
+if (!project.hasProperty('signing.keyId'))              ext['signing.keyId']                = System.getenv('SIGNING_KEY_ID') ?: '**UNDEFINED**'
+if (!project.hasProperty('signing.password'))           ext['signing.password']             = System.getenv('SIGNING_PASSWORD') ?: '**UNDEFINED**'
+if (!project.hasProperty('signing.secretKeyRingFile'))  ext['signing.secretKeyRingFile']    = System.getenv('SIGNING_SECRET_KEY_PATH') ? rootProject.file(System.getenv('SIGNING_SECRET_KEY_PATH')).text : '**UNDEFINED**'
 
 config {
     release = (rootProject.findProperty('release') ?: false).toBoolean()
@@ -73,13 +73,8 @@ config {
     publishing {
         enabled = false
         signing {
-            enabled = signingSecretKey != '**UNDEFINED**'
-            keyId = signingKeyId
-            secretKey = signingSecretKey
-            password = signingPassword
+            enabled = false
         }
-        releasesRepository = 'localRelease'
-        snapshotsRepository = 'localSnapshot'
     }
 
     artifacts {
@@ -136,12 +131,6 @@ subprojects { subproject ->
     apply plugin: 'java-library'
     apply plugin: 'com.vanniktech.maven.publish'
 
-    config {
-        publishing {
-            enabled = true
-        }
-    }
-
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 
@@ -152,5 +141,32 @@ subprojects { subproject ->
     mavenPublishing {
         publishToMavenCentral(true)
         signAllPublications()
+
+        pom {
+            name = "Expectations DSL Builder"
+            description = 'DSL for Writing JUnit Parametrized Tests'
+            inceptionYear = "2024"
+            url = "https://github.com/${slug}"
+            licenses {
+                license {
+                    name = "The Apache License, Version 2.0"
+                    url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                    distribution = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                }
+            }
+            developers {
+                developer {
+                    id = "musketyr"
+                    name = "Vladimir Orany"
+                    url = "https://github.com/musketyr/"
+                }
+            }
+            scm {
+                url = "https://github.com/${slug}.git"
+                connection = "scm:git:git://github.com/${slug}.git"
+                developerConnection = "scm:git:ssh://git@github.com/${slug}.git"
+            }
+        }
+
     }
 }

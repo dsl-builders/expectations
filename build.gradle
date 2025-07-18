@@ -170,6 +170,13 @@ subprojects { subproject ->
 
     }
 
+    configurations.all {
+        resolutionStrategy {
+            force 'org.bouncycastle:bcpg-jdk15on:1.70'
+            force 'org.bouncycastle:bcprov-jdk15on:1.70'
+        }
+    }
+
     signing {
         useInMemoryPgpKeys(rootProject.ext.signingInMemoryKey, rootProject.ext.signingInMemoryKeyPassword )
         sign publishing.publications

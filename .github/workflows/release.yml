@@ -19,6 +19,7 @@ jobs:
           distribution: 'zulu'
       - name: Setup GPG
         run: |
+          mkdir -p /home/runner/.gnupg
           echo "${{ secrets.SIGNING_SECRET_KEY_BASE64 }}" | base64 -d > /home/runner/.gnupg/secring.gpg
       - name: Semantic Version
         id: version

@@ -19,9 +19,7 @@ jobs:
           distribution: 'zulu'
       - name: Setup GPG
         run: |
-          echo "${{ secrets.SIGNING_SECRET_KEY_BASE64 }}" | base64 -d > secret.gpg
-          gpg --batch --yes --passphrase "${{ secrets.SIGNING_PASSWORD }}" --import secret.gpg
-          rm secret.gpg
+          echo "${{ secrets.SIGNING_SECRET_KEY_BASE64 }}" | base64 -d > /home/runner/.gnupg/secring.gpg
       - name: Semantic Version
         id: version
         uses: ncipollo/semantic-version-action@v1
@@ -31,5 +29,5 @@ jobs:
           MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
           SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
-          SIGNING_SECRET_KEY_RING_FILE: /home/runner/.gnupg/pubring.kbx
+          SIGNING_SECRET_KEY_RING_FILE: /home/runner/.gnupg/secring.gpg
         run: ./gradlew gitPublishPush publishAndReleaseToMavenCentral "-Pversion=${{ steps.version.outputs.tag }}" -Prelease=true "-Dorg.ajoberstar.grgit.auth.username=${{ secrets.GH_PAGES_TOKEN }}" --stacktrace

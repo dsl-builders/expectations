@@ -17,12 +17,11 @@ jobs:
         with:
           java-version: '11'
           distribution: 'zulu'
-      - name: Decode PGP
-        id: write_file
-        uses: timheuer/base64-to-file@v1.2
-        with:
-          fileName: 'secret.pgp'
-          encodedString: ${{ secrets.SIGNING_SECRET_KEY_BASE64 }}
+      - name: Setup GPG
+        run: |
+          echo "${{ secrets.SIGNING_SECRET_KEY_BASE64 }}" | base64 -d > secret.gpg
+          gpg --batch --yes --passphrase "${{ secrets.SIGNING_PASSWORD }}" --import secret.gpg
+          rm secret.gpg
       - name: Semantic Version
         id: version
         uses: ncipollo/semantic-version-action@v1
@@ -30,7 +29,7 @@ jobs:
       - env:
           MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
-          SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
-          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
-          SIGNING_SECRET_KEY_PATH: ${{ steps.write_file.outputs.filePath }}
-        run: ./gradlew gitPublishPush publishToMavenCentral "-Pversion=${{ steps.version.outputs.tag }}" -Prelease=true "-Dorg.ajoberstar.grgit.auth.username=${{ secrets.GH_PAGES_TOKEN }}" --stacktrace
+          ORG_GRADLE_PROJECT_signing.keyId: ${{ secrets.SIGNING_KEY_ID }}
+          ORG_GRADLE_PROJECT_signing.password: ${{ secrets.SIGNING_PASSWORD }}
+          ORG_GRADLE_PROJECT_signing.secretKeyRingFile: /home/runner/.gnupg/secring.gpg
+        run: ./gradlew gitPublishPush publishAndReleaseToMavenCentral "-Pversion=${{ steps.version.outputs.tag }}" -Prelease=true "-Dorg.ajoberstar.grgit.auth.username=${{ secrets.GH_PAGES_TOKEN }}" --stacktrace

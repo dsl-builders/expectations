@@ -21,7 +21,9 @@ jobs:
         run: |
           echo "${{ secrets.SIGNING_SECRET_KEY_BASE64 }}" | base64 -d > secret.gpg
           gpg --batch --yes --passphrase "${{ secrets.SIGNING_PASSWORD }}" --import secret.gpg
-          gpg --batch --yes --passphrase "${{ secrets.SIGNING_PASSWORD }}" --export-secret-keys > /home/runner/.gnupg/secring.gpg
+          echo "allow-loopback-pinentry" >> /home/runner/.gnupg/gpg-agent.conf
+          gpg-connect-agent reloadagent /bye
+          gpg --batch --yes --pinentry-mode loopback --passphrase "${{ secrets.SIGNING_PASSWORD }}" --export-secret-keys > /home/runner/.gnupg/secring.gpg
           rm secret.gpg
       - name: Semantic Version
         id: version

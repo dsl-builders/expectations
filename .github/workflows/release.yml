@@ -17,10 +17,12 @@ jobs:
         with:
           java-version: '11'
           distribution: 'zulu'
-      - name: Setup GPG
-        run: |
-          mkdir -p /home/runner/.gnupg
-          echo "${{ secrets.SIGNING_SECRET_KEY_BASE64 }}" | base64 -d > /home/runner/.gnupg/secring.gpg
+      - name: Decode PGP
+        id: write_file
+        uses: timheuer/base64-to-file@v1.2
+        with:
+          fileName: 'secret.pgp'
+          encodedString: ${{ secrets.SIGNING_SECRET_KEY_BASE64 }}
       - name: Semantic Version
         id: version
         uses: ncipollo/semantic-version-action@v1
@@ -30,5 +32,5 @@ jobs:
           MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
           SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
-          SIGNING_SECRET_KEY_RING_FILE: /home/runner/.gnupg/secring.gpg
+          SIGNING_SECRET_KEY_PATH: ${{ steps.write_file.outputs.filePath }}
         run: ./gradlew gitPublishPush publishAndReleaseToMavenCentral "-Pversion=${{ steps.version.outputs.tag }}" -Prelease=true "-Dorg.ajoberstar.grgit.auth.username=${{ secrets.GH_PAGES_TOKEN }}" --stacktrace

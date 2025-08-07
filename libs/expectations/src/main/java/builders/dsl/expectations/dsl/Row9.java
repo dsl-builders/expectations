@@ -17,6 +17,8 @@
  */
 package builders.dsl.expectations.dsl;
 
+import builders.dsl.expectations.source.SourceLocation;
+
 /**
  * Represents a row with nine elements.
  *
@@ -41,6 +43,7 @@ public class Row9<A, B, C, D, E, F, G, H, I> {
     private final G g;
     private final H h;
     private final I i;
+    private final SourceLocation location;
 
     /**
      * Creates a new row with nine elements.
@@ -65,6 +68,7 @@ public class Row9<A, B, C, D, E, F, G, H, I> {
         this.g = g;
         this.h = h;
         this.i = i;
+        this.location = SourceLocation.createLocationInTheTestClass();
     }
 
     /**
@@ -146,6 +150,15 @@ public class Row9<A, B, C, D, E, F, G, H, I> {
      */
     public I getI() {
         return i;
+    }
+
+    /**
+     * Returns the source location where the row was created.
+     *
+     * @return the source location
+     */
+    public SourceLocation getLocation() {
+        return location;
     }
 
 }

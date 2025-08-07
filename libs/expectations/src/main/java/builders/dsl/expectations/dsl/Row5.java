@@ -17,6 +17,8 @@
  */
 package builders.dsl.expectations.dsl;
 
+import builders.dsl.expectations.source.SourceLocation;
+
 /**
  * Represents a row with five elements.
  *
@@ -33,6 +35,7 @@ public class Row5<A, B, C, D, E> {
     private final C c;
     private final D d;
     private final E e;
+    private final SourceLocation location;
 
     /**
      * Creates a new row with five elements.
@@ -49,6 +52,7 @@ public class Row5<A, B, C, D, E> {
         this.c = c;
         this.d = d;
         this.e = e;
+        this.location = SourceLocation.createLocationInTheTestClass();
     }
 
     /**
@@ -94,6 +98,15 @@ public class Row5<A, B, C, D, E> {
      */
     public E getE() {
         return e;
+    }
+
+    /**
+     * Returns the source location where the row was created.
+     *
+     * @return the source location
+     */
+    public SourceLocation getLocation() {
+        return location;
     }
 
 }

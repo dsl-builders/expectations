@@ -9,10 +9,10 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <link rel="stylesheet" href="./asciidoctor.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="css/expectations-builder.css?v=1.0.1" />
-<link rel="stylesheet" href="css/codeBlockSwitch.css?v=1.0.1" />
+<link rel="stylesheet" href="css/expectations-builder.css?v=1.1.0" />
+<link rel="stylesheet" href="css/codeBlockSwitch.css?v=1.1.0" />
 <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
-<script src="js/codeBlockSwitch.js?v=1.0.1"></script>
+<script src="js/codeBlockSwitch.js?v=1.1.0"></script>
 <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
                 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -28,7 +28,7 @@
 <div id="header">
 <h1>Expectations DSL Builder</h1>
 <div class="details">
-<span id="revnumber">version 1.0.1</span>
+<span id="revnumber">version 1.1.0</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -41,7 +41,8 @@
 </ul>
 </li>
 <li><a href="#_immediately_verify_expectations">3. Immediately Verify Expectations</a></li>
-<li><a href="#_using_more_dynamic_parameters">4. Using More Dynamic Parameters</a></li>
+<li><a href="#_source_location_tracking">4. Source Location Tracking</a></li>
+<li><a href="#_using_more_dynamic_parameters">5. Using More Dynamic Parameters</a></li>
 </ul>
 </div>
 </div>
@@ -76,7 +77,7 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'builders.dsl:expectations:1.0.1'
+    testImplementation 'builders.dsl:expectations:1.1.0'
 }</code></pre>
 </div>
 </div>
@@ -87,7 +88,7 @@ dependencies {
 &lt;dependency&gt;
   &lt;groupId&gt;builders.dsl&lt;/groupId&gt;
   &lt;artifactId&gt;expectations&lt;/artifactId&gt;
-  &lt;version&gt;1.0.1&lt;/version&gt;
+  &lt;version&gt;1.1.0&lt;/version&gt;
   &lt;scope&gt;test&lt;/scope&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
@@ -242,7 +243,53 @@ void basicTest3FluentFails() {
 </div>
 </div>
 <div class="sect1">
-<h2 id="_using_more_dynamic_parameters"><a class="anchor" href="#_using_more_dynamic_parameters"></a>4. Using More Dynamic Parameters</h2>
+<h2 id="_source_location_tracking"><a class="anchor" href="#_source_location_tracking"></a>4. Source Location Tracking</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When your tests fail, Expectations DSL Builder automatically includes source location information in the error messages to help you quickly identify where the failing test data was defined in your code.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><strong>Enhanced Error Messages</strong>: When a test fails, the error message will show:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The template name and values that failed</p>
+</li>
+<li>
+<p>The exact source location <code>(FileName.java:lineNumber)</code> where the failing data row was created using <code>is()</code>, <code>are()</code>, or <code>and()</code> methods</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This makes debugging much easier, especially when you have many data rows or complex test setups.</p>
+</div>
+<div class="paragraph">
+<p>Example error message:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code>Verification failed for 2 + 3 = 5 with values a=2, b=3, c=6 (ExpectationsTest.java:194)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>(ExpectationsTest.java:194)</code> part shows exactly which line in your test file created the failing data row.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_more_dynamic_parameters"><a class="anchor" href="#_using_more_dynamic_parameters"></a>5. Using More Dynamic Parameters</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>You can also define the parameter values using <code>Stream</code> or <code>Iterable</code> objects. In that case the given method will alter header and <code>Stream</code> or <code>Iterable</code> to define the data rows.</p>
@@ -277,8 +324,8 @@ Expectations basicTest3WithStreams() {
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.0.1<br>
-Last updated 2025-07-18 14:04:52 UTC
+Version 1.1.0<br>
+Last updated 2025-08-07 08:24:27 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">

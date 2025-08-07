@@ -18,6 +18,7 @@
 package builders.dsl.expectations.dsl;
 
 import builders.dsl.expectations.Expectations;
+import builders.dsl.expectations.source.SourceLocationInfo;
 import org.junit.jupiter.api.DynamicTest;
 import org.opentest4j.AssertionFailedError;
 
@@ -97,17 +98,19 @@ public class DataTable4<A, B, C, D> {
             return DynamicTest.dynamicTest(
                     finalTitle,
                     () -> {
-                        boolean verified = false;
-                        Throwable throwable = null;
+                        boolean verified;
 
                         try {
                             verified = verification.verify(row.getA(), row.getB(), row.getC(), row.getD());
                         } catch (Throwable e) {
-                            throwable = e;
+                            e.addSuppressed(new SourceLocationInfo(row.getLocation()));
+                            throw e;
                         }
 
                         if (!verified) {
-                            throw new AssertionFailedError("Verification failed for " + finalTitle + " with values " + headers.getA() + "=" + row.getA() + ", " + headers.getB() + "=" + row.getB() + ", " + headers.getC() + "=" + row.getC() + ", " + headers.getD() + "=" + row.getD() + " " + row.getLocation(), throwable);
+                            AssertionFailedError assertionFailedError = new AssertionFailedError("Verification failed for " + finalTitle + " with values " + headers.getA() + "=" + row.getA() + ", " + headers.getB() + "=" + row.getB() + ", " + headers.getC() + "=" + row.getC() + ", " + headers.getD() + "=" + row.getD());
+                            assertionFailedError.addSuppressed(new SourceLocationInfo(row.getLocation()));
+                            throw assertionFailedError;
                         }
                     }
             );

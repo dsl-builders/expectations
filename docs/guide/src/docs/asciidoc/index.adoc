@@ -86,6 +86,27 @@ include::{root-dir}/libs/expectations/src/test/java/builders/dsl/expectations/Ex
 <1> Annotate method with `@Test`
 <2> Use `evaluate()` method to execute all the assertions
 
+== Source Location Tracking
+
+When your tests fail, Expectations DSL Builder automatically includes source location information in the error messages to help you quickly identify where the failing test data was defined in your code.
+
+[TIP]
+====
+**Enhanced Error Messages**: When a test fails, the error message will show:
+
+* The template name and values that failed
+* The exact source location `(FileName.java:lineNumber)` where the failing data row was created using `is()`, `are()`, or `and()` methods
+
+This makes debugging much easier, especially when you have many data rows or complex test setups.
+
+Example error message:
+```
+Verification failed for 2 + 3 = 5 with values a=2, b=3, c=6 (ExpectationsTest.java:194)
+```
+
+The `(ExpectationsTest.java:194)` part shows exactly which line in your test file created the failing data row.
+====
+
 == Using More Dynamic Parameters
 
 You can also define the parameter values using `Stream` or `Iterable` objects. In that case the given method will alter header and `Stream` or `Iterable` to define the data rows.

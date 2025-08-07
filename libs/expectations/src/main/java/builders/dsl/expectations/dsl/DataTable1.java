@@ -86,8 +86,17 @@ public class DataTable1<A> {
             return DynamicTest.dynamicTest(
                     title,
                 () -> {
-                    if (!verification.verify(row.getA())) {
-                        throw new AssertionFailedError("Verification failed for " + title + " with values " + headers.getA() + "=" + row.getA());
+                    boolean verified = false;
+                    Throwable throwable = null;
+
+                    try {
+                        verified = verification.verify(row.getA());
+                    } catch (Throwable e) {
+                        throwable = e;
+                    }
+
+                    if (!verified) {
+                        throw new AssertionFailedError("Verification failed for " + title + " with values " + headers.getA() + "=" + row.getA() + " " + row.getLocation(), throwable);
                     }
                 }
             );

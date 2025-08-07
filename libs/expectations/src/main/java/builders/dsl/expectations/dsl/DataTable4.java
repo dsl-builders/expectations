@@ -97,8 +97,17 @@ public class DataTable4<A, B, C, D> {
             return DynamicTest.dynamicTest(
                     finalTitle,
                     () -> {
-                        if (!verification.verify(row.getA(), row.getB(), row.getC(), row.getD())) {
-                            throw new AssertionFailedError("Verification failed for " + finalTitle + " with values " + headers.getA() + "=" + row.getA() + ", " + headers.getB() + "=" + row.getB() + ", " + headers.getC() + "=" + row.getC() + ", " + headers.getD() + "=" + row.getD());
+                        boolean verified = false;
+                        Throwable throwable = null;
+
+                        try {
+                            verified = verification.verify(row.getA(), row.getB(), row.getC(), row.getD());
+                        } catch (Throwable e) {
+                            throwable = e;
+                        }
+
+                        if (!verified) {
+                            throw new AssertionFailedError("Verification failed for " + finalTitle + " with values " + headers.getA() + "=" + row.getA() + ", " + headers.getB() + "=" + row.getB() + ", " + headers.getC() + "=" + row.getC() + ", " + headers.getD() + "=" + row.getD() + " " + row.getLocation(), throwable);
                         }
                     }
             );

@@ -17,6 +17,8 @@
  */
 package builders.dsl.expectations.dsl;
 
+import builders.dsl.expectations.source.SourceLocation;
+
 /**
  * Represents a row with two elements.
  *
@@ -27,6 +29,7 @@ public class Row2<A, B> {
 
     private final A a;
     private final B b;
+    private final SourceLocation location;
 
     /**
      * Creates a new row with two elements.
@@ -37,6 +40,7 @@ public class Row2<A, B> {
     public Row2(A a, B b) {
         this.a = a;
         this.b = b;
+        this.location = SourceLocation.createLocationInTheTestClass();
     }
 
     /**
@@ -55,6 +59,15 @@ public class Row2<A, B> {
      */
     public B getB() {
         return b;
+    }
+
+    /**
+     * Returns the source location where the row was created.
+     *
+     * @return the source location
+     */
+    public SourceLocation getLocation() {
+        return location;
     }
 
 }

@@ -17,6 +17,8 @@
  */
 package builders.dsl.expectations.dsl;
 
+import builders.dsl.expectations.source.SourceLocation;
+
 /**
  * Represents a row with one element.
  *
@@ -25,6 +27,7 @@ package builders.dsl.expectations.dsl;
 public class Row1<A> {
 
     private final A a;
+    private final SourceLocation location;
 
     /**
      * Creates a new row with one element.
@@ -33,6 +36,7 @@ public class Row1<A> {
      */
     public Row1(A a) {
         this.a = a;
+        this.location = SourceLocation.createLocationInTheTestClass();
     }
 
     /**
@@ -42,6 +46,15 @@ public class Row1<A> {
      */
     public A getA() {
         return a;
+    }
+
+    /**
+     * Returns the source location where the row was created.
+     *
+     * @return the source location
+     */
+    public SourceLocation getLocation() {
+        return location;
     }
 
 }

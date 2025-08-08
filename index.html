@@ -9,10 +9,10 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <link rel="stylesheet" href="./asciidoctor.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="css/expectations-builder.css?v=1.1.1" />
-<link rel="stylesheet" href="css/codeBlockSwitch.css?v=1.1.1" />
+<link rel="stylesheet" href="css/expectations-builder.css?v=1.1.2" />
+<link rel="stylesheet" href="css/codeBlockSwitch.css?v=1.1.2" />
 <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
-<script src="js/codeBlockSwitch.js?v=1.1.1"></script>
+<script src="js/codeBlockSwitch.js?v=1.1.2"></script>
 <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
                 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -28,7 +28,7 @@
 <div id="header">
 <h1>Expectations DSL Builder</h1>
 <div class="details">
-<span id="revnumber">version 1.1.1</span>
+<span id="revnumber">version 1.1.2</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -42,7 +42,8 @@
 </li>
 <li><a href="#_immediately_verify_expectations">3. Immediately Verify Expectations</a></li>
 <li><a href="#_source_location_tracking">4. Source Location Tracking</a></li>
-<li><a href="#_using_more_dynamic_parameters">5. Using More Dynamic Parameters</a></li>
+<li><a href="#_running_specific_test_data_only">5. Running Specific Test Data Only</a></li>
+<li><a href="#_using_more_dynamic_parameters">6. Using More Dynamic Parameters</a></li>
 </ul>
 </div>
 </div>
@@ -77,7 +78,7 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'builders.dsl:expectations:1.1.1'
+    testImplementation 'builders.dsl:expectations:1.1.2'
 }</code></pre>
 </div>
 </div>
@@ -88,7 +89,7 @@ dependencies {
 &lt;dependency&gt;
   &lt;groupId&gt;builders.dsl&lt;/groupId&gt;
   &lt;artifactId&gt;expectations&lt;/artifactId&gt;
-  &lt;version&gt;1.1.1&lt;/version&gt;
+  &lt;version&gt;1.1.2&lt;/version&gt;
   &lt;scope&gt;test&lt;/scope&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
@@ -289,7 +290,90 @@ void basicTest3FluentFails() {
 </div>
 </div>
 <div class="sect1">
-<h2 id="_using_more_dynamic_parameters"><a class="anchor" href="#_using_more_dynamic_parameters"></a>5. Using More Dynamic Parameters</h2>
+<h2 id="_running_specific_test_data_only"><a class="anchor" href="#_running_specific_test_data_only"></a>5. Running Specific Test Data Only</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>During development, you may want to temporarily run only specific data rows instead of all test cases. The <code>only</code> method allows you to do this:</p>
+</div>
+<div class="listingblock">
+<div class="title">Running Only Specific Rows</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">@TestFactory
+Expectations testAdditionOnlySpecific() {
+    return given("a", "b", "c")
+            .are(1, 1, 2)
+            .and(2, 2, 4)
+            .only(3, 3, 6)  <i class="conum" data-value="1"></i><b>(1)</b>
+            .and(4, 4, 8)   <i class="conum" data-value="2"></i><b>(2)</b>
+        .expect("#a + #b = #c", (a, b, c) -&gt; a + b == c);
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Use <code>only()</code> to mark this row for execution</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Rows added with <code>and()</code> before and after <code>only()</code> will be skipped</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You can also start with <code>only()</code> directly from the headers:</p>
+</div>
+<div class="listingblock">
+<div class="title">Start with Only</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="java">@TestFactory
+Expectations testAdditionOnlyFirst() {
+    return given("a", "b", "c")
+            .only(5, 5, 10)  <i class="conum" data-value="1"></i><b>(1)</b>
+            .only(6, 6, 12)  <i class="conum" data-value="2"></i><b>(2)</b>
+            .and(7, 7, 14)   <i class="conum" data-value="3"></i><b>(3)</b>
+        .expect("#a + #b = #c", (a, b, c) -&gt; a + b == c);
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Start directly with <code>only()</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Multiple <code>only()</code> calls can be chained</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td><code>and()</code> calls before and after <code>only()</code> are skipped</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><strong>CI Environment Protection</strong>: The <code>only</code> feature is automatically disabled in Continuous Integration (CI) environments to ensure all tests run. If you try to use <code>only()</code> when the <code>CI</code> environment variable is set, you&#8217;ll get an <code>IllegalStateException</code>.</p>
+</div>
+<div class="paragraph">
+<p>This prevents accidentally deploying code with tests that only run a subset of data.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_more_dynamic_parameters"><a class="anchor" href="#_using_more_dynamic_parameters"></a>6. Using More Dynamic Parameters</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>You can also define the parameter values using <code>Stream</code> or <code>Iterable</code> objects. In that case the given method will alter header and <code>Stream</code> or <code>Iterable</code> to define the data rows.</p>
@@ -324,8 +408,8 @@ Expectations basicTest3WithStreams() {
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.1.1<br>
-Last updated 2025-08-07 09:10:02 UTC
+Version 1.1.2<br>
+Last updated 2025-08-08 09:41:22 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">

@@ -107,6 +107,51 @@ Verification failed for 2 + 3 = 5 with values a=2, b=3, c=6 (ExpectationsTest.ja
 The `(ExpectationsTest.java:194)` part shows exactly which line in your test file created the failing data row.
 ====
 
+== Running Specific Test Data Only
+
+During development, you may want to temporarily run only specific data rows instead of all test cases. The `only` method allows you to do this:
+
+[source,java,indent=0,subs='verbatim,attributes']
+.Running Only Specific Rows
+----
+@TestFactory
+Expectations testAdditionOnlySpecific() {
+    return given("a", "b", "c")
+            .are(1, 1, 2)
+            .and(2, 2, 4)
+            .only(3, 3, 6)  // <1>
+            .and(4, 4, 8)   // <2>
+        .expect("#a + #b = #c", (a, b, c) -> a + b == c);
+}
+----
+<1> Use `only()` to mark this row for execution
+<2> Rows added with `and()` before and after `only()` will be skipped
+
+You can also start with `only()` directly from the headers:
+
+[source,java,indent=0,subs='verbatim,attributes']
+.Start with Only
+----
+@TestFactory
+Expectations testAdditionOnlyFirst() {
+    return given("a", "b", "c")
+            .only(5, 5, 10)  // <1>
+            .only(6, 6, 12)  // <2>
+            .and(7, 7, 14)   // <3>
+        .expect("#a + #b = #c", (a, b, c) -> a + b == c);
+}
+----
+<1> Start directly with `only()`
+<2> Multiple `only()` calls can be chained
+<3> `and()` calls before and after `only()` are skipped
+
+[IMPORTANT]
+====
+**CI Environment Protection**: The `only` feature is automatically disabled in Continuous Integration (CI) environments to ensure all tests run. If you try to use `only()` when the `CI` environment variable is set, you'll get an `IllegalStateException`.
+
+This prevents accidentally deploying code with tests that only run a subset of data.
+====
+
 == Using More Dynamic Parameters
 
 You can also define the parameter values using `Stream` or `Iterable` objects. In that case the given method will alter header and `Stream` or `Iterable` to define the data rows.

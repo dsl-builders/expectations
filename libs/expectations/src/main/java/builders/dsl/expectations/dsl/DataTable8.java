@@ -18,11 +18,13 @@
 package builders.dsl.expectations.dsl;
 
 import builders.dsl.expectations.Expectations;
+import builders.dsl.expectations.ci.ContinuousIntegrationChecks;
 import builders.dsl.expectations.source.SourceLocationInfo;
 import org.junit.jupiter.api.DynamicTest;
 import org.opentest4j.AssertionFailedError;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -41,6 +43,7 @@ public class DataTable8<A, B, C, D, E, F, G, H> {
 
     private final List<Row8<A, B, C, D, E, F, G, H>> data = new ArrayList<>();
     private final Headers8 headers;
+    private final boolean only;
 
     /**
      * Creates a new data table with eight columns.
@@ -48,7 +51,18 @@ public class DataTable8<A, B, C, D, E, F, G, H> {
      * @param rows the rows of the data table
      */
     public DataTable8(Headers8 headers, Iterable<Row8<A, B, C, D, E, F, G, H>> rows) {
+        this(headers, rows, false);
+    }
+
+    /**
+     * Creates a new data table with eight columns.
+     * @param headers the headers of the data table
+     * @param rows the rows of the data table
+     * @param only if <code>true</code>, only this row and any other starting with <code>only</code >will be used in the expectation
+     */
+    public DataTable8(Headers8 headers, Iterable<Row8<A, B, C, D, E, F, G, H>> rows, boolean only) {
         this.headers = headers;
+        this.only = only;
         rows.forEach(data::add);
     }
 
@@ -88,8 +102,22 @@ public class DataTable8<A, B, C, D, E, F, G, H> {
      * @return the data table with the new row
      */
     public DataTable8<A, B, C, D, E, F, G, H> and(A a, B b, C c, D d, E e, F f, G g, H h) {
+        if (only) {
+            // and is skipped if only is set
+            return this;
+        }
         data.add(new Row8<>(a, b, c, d, e, f, g, h));
         return this;
+    }
+
+    public DataTable8<A, B, C, D, E, F, G, H> only(A a, B b, C c, D d, E e, F f, G g, H h) {
+        ContinuousIntegrationChecks.checkOnlyAllowed();
+        if (only) {
+            data.add(new Row8<>(a, b, c, d, e, f, g, h));
+            return this;
+        }
+
+        return new DataTable8<>(headers, Collections.singleton(new Row8<>(a, b, c, d, e, f, g, h)), true);
     }
 
     Stream<DynamicTest> generateTests(String template, Assertion8<A, B, C, D, E, F, G, H> verification) {

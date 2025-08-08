@@ -18,11 +18,13 @@
 package builders.dsl.expectations.dsl;
 
 import builders.dsl.expectations.Expectations;
+import builders.dsl.expectations.ci.ContinuousIntegrationChecks;
 import builders.dsl.expectations.source.SourceLocationInfo;
 import org.junit.jupiter.api.DynamicTest;
 import org.opentest4j.AssertionFailedError;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -40,6 +42,7 @@ public class DataTable6<A, B, C, D, E, F> {
 
     private final List<Row6<A, B, C, D, E, F>> data = new ArrayList<>();
     private final Headers6 headers;
+    private final boolean only;
 
     /**
      * Creates a new data table with six columns.
@@ -48,7 +51,19 @@ public class DataTable6<A, B, C, D, E, F> {
      * @param rows    the rows of the data table
      */
     public DataTable6(Headers6 headers, Iterable<Row6<A, B, C, D, E, F>> rows) {
+        this(headers, rows, false);
+    }
+
+    /**
+     * Creates a new data table with six columns.
+     *
+     * @param headers the headers of the data table
+     * @param rows    the rows of the data table
+     * @param only    if <code>true</code>, only this row and any other starting with <code>only</code >will be used in the expectation
+     */
+    public DataTable6(Headers6 headers, Iterable<Row6<A, B, C, D, E, F>> rows, boolean only) {
         this.headers = headers;
+        this.only = only;
         rows.forEach(data::add);
     }
 
@@ -89,8 +104,22 @@ public class DataTable6<A, B, C, D, E, F> {
      * @return self with the new row added
      */
     public DataTable6<A, B, C, D, E, F> and(A a, B b, C c, D d, E e, F f) {
+        if (only) {
+            // and is skipped if only is set
+            return this;
+        }
         data.add(new Row6<>(a, b, c, d, e, f));
         return this;
+    }
+
+    public DataTable6<A, B, C, D, E, F> only(A a, B b, C c, D d, E e, F f) {
+        ContinuousIntegrationChecks.checkOnlyAllowed();
+        if (only) {
+            data.add(new Row6<>(a, b, c, d, e, f));
+            return this;
+        }
+
+        return new DataTable6<>(headers, Collections.singleton(new Row6<>(a, b, c, d, e, f)), true);
     }
 
     Stream<DynamicTest> generateTests(String template, Assertion6<A, B, C, D, E, F> verification) {

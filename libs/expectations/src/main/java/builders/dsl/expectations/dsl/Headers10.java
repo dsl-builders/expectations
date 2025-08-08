@@ -17,6 +17,8 @@
  */
 package builders.dsl.expectations.dsl;
 
+import builders.dsl.expectations.ci.ContinuousIntegrationChecks;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,6 +92,30 @@ public class Headers10 {
         List<Row10<A, B, C, D, E, F, G, H, I, J>> rows = new ArrayList<>();
         rows.add(new Row10<>(a, b, c, d, e, f, g, h, i, j));
         return new DataTable10<>(this, rows);
+    }
+
+    /**
+     * Creates the first data row with the ten parameters.
+     * <p>
+     * Only rows with call to <code>only</code> method will be run.
+     *
+     * @param a the first value of the first parameter
+     * @param b the first value of the second parameter
+     * @param c the first value of the third parameter
+     * @param d the first value of the fourth parameter
+     * @param e the first value of the fifth parameter
+     * @param f the first value of the sixth parameter
+     * @param g the first value of the seventh parameter
+     * @param h the first value of the eighth parameter
+     * @param i the first value of the ninth parameter
+     * @param j the first value of the tenth parameter
+     * @return the new data row with the ten parameters
+     */
+    public <A, B, C, D, E, F, G, H, I, J> DataTable10<A, B, C, D, E, F, G, H, I, J> only(A a, B b, C c, D d, E e, F f, G g, H h, I i, J j) {
+        ContinuousIntegrationChecks.checkOnlyAllowed();
+        List<Row10<A, B, C, D, E, F, G, H, I, J>> rows = new ArrayList<>();
+        rows.add(new Row10<>(a, b, c, d, e, f, g, h, i, j));
+        return new DataTable10<>(this, rows, true);
     }
 
 }

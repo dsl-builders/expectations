@@ -17,6 +17,8 @@
  */
 package builders.dsl.expectations.dsl;
 
+import builders.dsl.expectations.ci.ContinuousIntegrationChecks;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +44,22 @@ public class Headers2 {
         List<Row2<A, B>> rows = new ArrayList<>();
         rows.add(new Row2<>(a, b));
         return new DataTable2<>(this, rows);
+    }
+
+    /**
+     * Creates the first data row with the two parameters.
+     * <p>
+     * Only rows with call to <code>only</code> method will be run.
+     *
+     * @param a the first value of the first parameter
+     * @param b the first value of the second parameter
+     * @return the new data row with the two parameters
+     */
+    public <A, B> DataTable2<A, B> only(A a, B b) {
+        ContinuousIntegrationChecks.checkOnlyAllowed();
+        List<Row2<A, B>> rows = new ArrayList<>();
+        rows.add(new Row2<>(a, b));
+        return new DataTable2<>(this, rows, true);
     }
 
 }

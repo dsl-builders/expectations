@@ -18,11 +18,13 @@
 package builders.dsl.expectations.dsl;
 
 import builders.dsl.expectations.Expectations;
+import builders.dsl.expectations.ci.ContinuousIntegrationChecks;
 import builders.dsl.expectations.source.SourceLocationInfo;
 import org.junit.jupiter.api.DynamicTest;
 import org.opentest4j.AssertionFailedError;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -38,6 +40,7 @@ public class DataTable4<A, B, C, D> {
 
     private final List<Row4<A, B, C, D>> data = new ArrayList<>();
     private final Headers4 headers;
+    private final boolean only;
 
     /**
      * Creates a new data table with four columns.
@@ -46,7 +49,19 @@ public class DataTable4<A, B, C, D> {
      * @param rows    the rows of the data table
      */
     public DataTable4(Headers4 headers, Iterable<Row4<A, B, C, D>> rows) {
+        this(headers, rows, false);
+    }
+
+    /**
+     * Creates a new data table with four columns.
+     *
+     * @param headers the headers of the data table
+     * @param rows    the rows of the data table
+     * @param only    if <code>true</code>, only this row and any other starting with <code>only</code >will be used in the expectation
+     */
+    public DataTable4(Headers4 headers, Iterable<Row4<A, B, C, D>> rows, boolean only) {
         this.headers = headers;
+        this.only = only;
         rows.forEach(data::add);
     }
 
@@ -85,8 +100,22 @@ public class DataTable4<A, B, C, D> {
      * @return self with the new row added
      */
     public DataTable4<A, B, C, D> and(A a, B b, C c, D d) {
+        if (only) {
+            // and is skipped if only is set
+            return this;
+        }
         data.add(new Row4<>(a, b, c, d));
         return this;
+    }
+
+    public DataTable4<A, B, C, D> only(A a, B b, C c, D d) {
+        ContinuousIntegrationChecks.checkOnlyAllowed();
+        if (only) {
+            data.add(new Row4<>(a, b, c, d));
+            return this;
+        }
+
+        return new DataTable4<>(headers, Collections.singleton(new Row4<>(a, b, c, d)), true);
     }
 
     Stream<DynamicTest> generateTests(String template, Assertion4<A, B, C, D> verification) {

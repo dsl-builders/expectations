@@ -17,6 +17,8 @@
  */
 package builders.dsl.expectations.dsl;
 
+import builders.dsl.expectations.ci.ContinuousIntegrationChecks;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,6 +80,28 @@ public class Headers8 {
         List<Row8<A, B, C, D, E, F, G, H>> rows = new ArrayList<>();
         rows.add(new Row8<>(a, b, c, d, e, f, g, h));
         return new DataTable8<>(this, rows);
+    }
+
+    /**
+     * Creates the first data row with the eight parameters.
+     * <p>
+     * Only rows with call to <code>only</code> method will be run.
+     *
+     * @param a the first value of the first parameter
+     * @param b the first value of the second parameter
+     * @param c the first value of the third parameter
+     * @param d the first value of the fourth parameter
+     * @param e the first value of the fifth parameter
+     * @param f the first value of the sixth parameter
+     * @param g the first value of the seventh parameter
+     * @param h the first value of the eighth parameter
+     * @return the new data row with the eight parameters
+     */
+    public <A, B, C, D, E, F, G, H> DataTable8<A, B, C, D, E, F, G, H> only(A a, B b, C c, D d, E e, F f, G g, H h) {
+        ContinuousIntegrationChecks.checkOnlyAllowed();
+        List<Row8<A, B, C, D, E, F, G, H>> rows = new ArrayList<>();
+        rows.add(new Row8<>(a, b, c, d, e, f, g, h));
+        return new DataTable8<>(this, rows, true);
     }
 
 }

@@ -18,11 +18,13 @@
 package builders.dsl.expectations.dsl;
 
 import builders.dsl.expectations.Expectations;
+import builders.dsl.expectations.ci.ContinuousIntegrationChecks;
 import builders.dsl.expectations.source.SourceLocationInfo;
 import org.junit.jupiter.api.DynamicTest;
 import org.opentest4j.AssertionFailedError;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -35,6 +37,7 @@ public class DataTable2<A, B> {
 
     private final List<Row2<A, B>> data = new ArrayList<>();
     private final Headers2 headers;
+    private final boolean only;
 
     /**
      * Creates a new data table with two columns.
@@ -42,7 +45,18 @@ public class DataTable2<A, B> {
      * @param rows the rows of the data table
      */
     public DataTable2(Headers2 headers, Iterable<Row2<A, B>> rows) {
+        this(headers, rows, false);
+    }
+
+    /**
+     * Creates a new data table with two columns.
+     * @param headers the headers of the data table
+     * @param rows the rows of the data table
+     * @param only if <code>true</code>, only this row and any other starting with <code>only</code >will be used in the expectation
+     */
+    public DataTable2(Headers2 headers, Iterable<Row2<A, B>> rows, boolean only) {
         this.headers = headers;
+        this.only = only;
         rows.forEach(data::add);
     }
 
@@ -76,8 +90,22 @@ public class DataTable2<A, B> {
      * @return self with the new row added
      */
     public DataTable2<A, B> and(A a, B b) {
+        if (only) {
+            // and is skipped if only is set
+            return this;
+        }
         data.add(new Row2<>(a, b));
         return this;
+    }
+
+    public DataTable2<A, B> only(A a, B b) {
+        ContinuousIntegrationChecks.checkOnlyAllowed();
+        if (only) {
+            data.add(new Row2<>(a, b));
+            return this;
+        }
+
+        return new DataTable2<>(headers, Collections.singleton(new Row2<>(a, b)), true);
     }
 
     Stream<DynamicTest> generateTests(String template, Assertion2<A, B> verification) {

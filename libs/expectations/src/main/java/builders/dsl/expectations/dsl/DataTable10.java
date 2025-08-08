@@ -18,11 +18,13 @@
 package builders.dsl.expectations.dsl;
 
 import builders.dsl.expectations.Expectations;
+import builders.dsl.expectations.ci.ContinuousIntegrationChecks;
 import builders.dsl.expectations.source.SourceLocationInfo;
 import org.junit.jupiter.api.DynamicTest;
 import org.opentest4j.AssertionFailedError;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -44,6 +46,7 @@ public class DataTable10<A, B, C, D, E, F, G, H, I, J> {
 
     private final List<Row10<A, B, C, D, E, F, G, H, I, J>> data = new ArrayList<>();
     private final Headers10 headers;
+    private final boolean only;
 
     /**
      * Creates a new data table with ten columns.
@@ -52,7 +55,19 @@ public class DataTable10<A, B, C, D, E, F, G, H, I, J> {
      * @param rows    the rows of the data table
      */
     public DataTable10(Headers10 headers, Iterable<Row10<A, B, C, D, E, F, G, H, I, J>> rows) {
+        this(headers, rows, false);
+    }
+
+    /**
+     * Creates a new data table with ten columns.
+     *
+     * @param headers the headers of the data table
+     * @param rows    the rows of the data table
+     * @param only    if <code>true</code>, only this row and any other starting with <code>only</code >will be used in the expectation
+     */
+    public DataTable10(Headers10 headers, Iterable<Row10<A, B, C, D, E, F, G, H, I, J>> rows, boolean only) {
         this.headers = headers;
+        this.only = only;
         rows.forEach(data::add);
     }
 
@@ -97,8 +112,22 @@ public class DataTable10<A, B, C, D, E, F, G, H, I, J> {
      * @return this data table
      */
     public DataTable10<A, B, C, D, E, F, G, H, I, J> and(A a, B b, C c, D d, E e, F f, G g, H h, I i, J j) {
+        if (only) {
+            // and is skipped if only is set
+            return this;
+        }
         data.add(new Row10<>(a, b, c, d, e, f, g, h, i, j));
         return this;
+    }
+
+    public DataTable10<A, B, C, D, E, F, G, H, I, J> only(A a, B b, C c, D d, E e, F f, G g, H h, I i, J j) {
+        ContinuousIntegrationChecks.checkOnlyAllowed();
+        if (only) {
+            data.add(new Row10<>(a, b, c, d, e, f, g, h, i, j));
+            return this;
+        }
+
+        return new DataTable10<>(headers, Collections.singleton(new Row10<>(a, b, c, d, e, f, g, h, i, j)), true);
     }
 
     Stream<DynamicTest> generateTests(String template, Assertion10<A, B, C, D, E, F, G, H, I, J> verification) {

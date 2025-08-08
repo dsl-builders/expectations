@@ -17,18 +17,33 @@
  */
 package builders.dsl.expectations;
 
+import builders.dsl.expectations.ci.ContinuousIntegrationChecks;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 import org.opentest4j.MultipleFailuresError;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static builders.dsl.expectations.Expectations.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ExpectationsTest {
+
+    @BeforeEach
+    void setUp() {
+        ContinuousIntegrationChecks.setOnlyAllowed(true);
+    }
+
+    @AfterEach
+    void tearDown() {
+        ContinuousIntegrationChecks.setOnlyAllowed(ContinuousIntegrationChecks.isRunningCI());
+    }
 
     @TestFactory
     Expectations basicTest1Fluent() {
@@ -109,6 +124,30 @@ class ExpectationsTest {
     }
 
     @TestFactory
+    Expectations basicTest1WithOnly() {
+        Set<Integer> set = new HashSet<>(Arrays.asList(1, 3));
+
+        return Expectations.given("number")
+                .only(1)
+                .and(2)
+                .only(3)
+                .and(4)
+                .and(5)
+                .expect("#number is in the set", set::contains);
+    }
+
+    @TestFactory
+    Expectations basicTest1HeadersWithOnly() {
+        Set<Integer> set = new HashSet<>(Arrays.asList(7, 9));
+
+        return Expectations.given("number")
+                .only(7)
+                .only(9)
+                .and(999)  // This should be skipped - would fail if executed (999 not in set)
+                .expect("#number is in the set", set::contains);
+    }
+
+    @TestFactory
     Expectations basicTest2Fluent() {
         Calculator calculator = new Calculator();
 
@@ -141,6 +180,31 @@ class ExpectationsTest {
                 .verify("#a + #b = 5", (a, b) ->
                         assertEquals(5, calculator.add(a, b))
                 );
+    }
+
+    @TestFactory
+    Expectations basicTest2WithOnly() {
+        Calculator calculator = new Calculator();
+
+        return given("a", "b")
+                .are(1, 4)
+                .and(2, 2)
+                .only(2, 3)
+                .and(999, 999)  // This should be skipped - would fail if executed (999 + 999 != 5)
+                .only(4, 1)
+                .and(888, 888)  // This should be skipped - would fail if executed (888 + 888 != 5)
+                .expect("#a + #b = 5", (a, b) -> calculator.add(a, b) == 5);
+    }
+
+    @TestFactory
+    Expectations basicTest2HeadersWithOnly() {
+        Calculator calculator = new Calculator();
+
+        return given("a", "b")
+                .only(1, 4)
+                .only(3, 2)
+                .and(500, 500)  // This should be skipped - would fail if executed (500 + 500 != 5)
+                .expect("#a + #b = 5", (a, b) -> calculator.add(a, b) == 5);
     }
 
     @TestFactory
@@ -215,6 +279,31 @@ class ExpectationsTest {
     }
     // end::junit-assertions[]
 
+    @TestFactory
+    Expectations basicTest3WithOnly() {
+        Calculator calculator = new Calculator();
+
+        return given("a", "b", "c")
+                .are(1, 1, 1)
+                .and(2, 2, 3)
+                .only(2, 3, 5)
+                .and(777, 777, 777)  // This should be skipped - would fail if executed (777 + 777 != 777)
+                .only(3, 5, 8)
+                .and(666, 666, 666)  // This should be skipped - would fail if executed (666 + 666 != 666)
+                .expect("#a + #b = #c", (a, b, c) -> calculator.add(a, b) == c);
+    }
+
+    @TestFactory
+    Expectations basicTest3HeadersWithOnly() {
+        Calculator calculator = new Calculator();
+
+        return given("a", "b", "c")
+                .only(2, 3, 5)
+                .only(3, 5, 8)
+                .and(888, 777, 666)  // This should be skipped - would fail if executed (888 + 777 != 666)
+                .expect("#a + #b = #c", (a, b, c) -> calculator.add(a, b) == c);
+    }
+
 
     // tag::streams[]
     @TestFactory
@@ -280,6 +369,31 @@ class ExpectationsTest {
                 .verify("#a + #b + #c = #d", (a, b, c, d) ->
                         assertEquals((int) d, calculator.add(a, b, c))
                 );
+    }
+
+    @TestFactory
+    Expectations basicTest4WithOnly() {
+        Calculator calculator = new Calculator();
+
+        return given("a", "b", "c", "d")
+                .are(1, 1, 1, 2)
+                .and(2, 2, 2, 5)
+                .only(2, 3, 5, 10)
+                .and(999, 999, 999, 999)  // This should be skipped - would fail if executed (999 + 999 + 999 != 999)
+                .only(3, 5, 8, 16)
+                .and(888, 888, 888, 888)  // This should be skipped - would fail if executed (888 + 888 + 888 != 888)
+                .expect("#a + #b + #c = #d", (a, b, c, d) -> calculator.add(a, b, c) == d);
+    }
+
+    @TestFactory
+    Expectations basicTest4HeadersWithOnly() {
+        Calculator calculator = new Calculator();
+
+        return given("a", "b", "c", "d")
+                .only(2, 3, 5, 10)
+                .only(3, 5, 8, 16)
+                .and(777, 666, 555, 444)  // This should be skipped - would fail if executed (777 + 666 + 555 != 444)
+                .expect("#a + #b + #c = #d", (a, b, c, d) -> calculator.add(a, b, c) == d);
     }
 
     @TestFactory
@@ -349,6 +463,31 @@ class ExpectationsTest {
     }
 
     @TestFactory
+    Expectations basicTest5WithOnly() {
+        Calculator calculator = new Calculator();
+
+        return given("a", "b", "c", "d", "e")
+                .are(1, 1, 1, 1, 3)
+                .and(2, 2, 2, 2, 7)
+                .only(2, 3, 5, 10, 20)
+                .and(999, 888, 777, 666, 555)  // This should be skipped - would fail if executed (999 + 888 + 777 + 666 != 555)
+                .only(3, 5, 8, 16, 32)
+                .and(444, 333, 222, 111, 100)  // This should be skipped - would fail if executed (444 + 333 + 222 + 111 != 100)
+                .expect("#a + #b + #c + #d = #e", (a, b, c, d, e) -> calculator.add(a, b, c, d) == e);
+    }
+
+    @TestFactory
+    Expectations basicTest5HeadersWithOnly() {
+        Calculator calculator = new Calculator();
+
+        return given("a", "b", "c", "d", "e")
+                .only(2, 3, 5, 10, 20)
+                .only(3, 5, 8, 16, 32)
+                .and(999, 888, 777, 666, 555)  // This should be skipped - would fail if executed (999 + 888 + 777 + 666 != 555)
+                .expect("#a + #b + #c + #d = #e", (a, b, c, d, e) -> calculator.add(a, b, c, d) == e);
+    }
+
+    @TestFactory
     Expectations basicTest5WithStreams() {
         Calculator calculator = new Calculator();
 
@@ -414,6 +553,31 @@ class ExpectationsTest {
                 .verify("#a + #b + #c + #d + #e = #f", (a, b, c, d, e, f) ->
                         assertEquals((int) f, calculator.add(a, b, c, d, e))
                 );
+    }
+
+    @TestFactory
+    Expectations basicTest6WithOnly() {
+        Calculator calculator = new Calculator();
+
+        return given("a", "b", "c", "d", "e", "f")
+                .are(1, 1, 1, 1, 1, 4)
+                .and(2, 2, 2, 2, 2, 9)
+                .only(2, 3, 5, 10, 20, 40)
+                .and(999, 888, 777, 666, 555, 444)  // This should be skipped - would fail if executed (999 + 888 + 777 + 666 + 555 != 444)
+                .only(3, 5, 8, 16, 32, 64)
+                .and(333, 222, 111, 100, 200, 300)  // This should be skipped - would fail if executed (333 + 222 + 111 + 100 + 200 != 300)
+                .expect("#a + #b + #c + #d + #e = #f", (a, b, c, d, e, f) -> calculator.add(a, b, c, d, e) == f);
+    }
+
+    @TestFactory
+    Expectations basicTest6HeadersWithOnly() {
+        Calculator calculator = new Calculator();
+
+        return given("a", "b", "c", "d", "e", "f")
+                .only(2, 3, 5, 10, 20, 40)
+                .only(3, 5, 8, 16, 32, 64)
+                .and(999, 888, 777, 666, 555, 444)  // This should be skipped - would fail if executed (999 + 888 + 777 + 666 + 555 != 444)
+                .expect("#a + #b + #c + #d + #e = #f", (a, b, c, d, e, f) -> calculator.add(a, b, c, d, e) == f);
     }
 
     @TestFactory
@@ -487,6 +651,31 @@ class ExpectationsTest {
     }
 
     @TestFactory
+    Expectations basicTest7WithOnly() {
+        Calculator calculator = new Calculator();
+
+        return given("a", "b", "c", "d", "e", "f", "g")
+                .are(1, 1, 1, 1, 1, 1, 5)
+                .and(2, 2, 2, 2, 2, 2, 11)
+                .only(2, 3, 5, 10, 20, 40, 80)
+                .and(999, 888, 777, 666, 555, 444, 333)  // This should be skipped - would fail if executed (999 + 888 + 777 + 666 + 555 + 444 != 333)
+                .only(3, 5, 8, 16, 32, 64, 128)
+                .and(222, 111, 100, 200, 300, 400, 500)  // This should be skipped - would fail if executed (222 + 111 + 100 + 200 + 300 + 400 != 500)
+                .expect("#a + #b + #c + #d + #e + #f = #g", (a, b, c, d, e, f, g) -> calculator.add(a, b, c, d, e, f) == g);
+    }
+
+    @TestFactory
+    Expectations basicTest7HeadersWithOnly() {
+        Calculator calculator = new Calculator();
+
+        return given("a", "b", "c", "d", "e", "f", "g")
+                .only(2, 3, 5, 10, 20, 40, 80)
+                .only(3, 5, 8, 16, 32, 64, 128)
+                .and(999, 888, 777, 666, 555, 444, 333)  // This should be skipped - would fail if executed (999 + 888 + 777 + 666 + 555 + 444 != 333)
+                .expect("#a + #b + #c + #d + #e + #f = #g", (a, b, c, d, e, f, g) -> calculator.add(a, b, c, d, e, f) == g);
+    }
+
+    @TestFactory
     Expectations basicTest7WithStreams() {
         Calculator calculator = new Calculator();
 
@@ -556,6 +745,31 @@ class ExpectationsTest {
                 .verify("#a + #b + #c + #d + #e + #f + #g = #h", (a, b, c, d, e, f, g, h) ->
                         assertEquals((int) h, calculator.add(a, b, c, d, e, f, g))
                 );
+    }
+
+    @TestFactory
+    Expectations basicTest8WithOnly() {
+        Calculator calculator = new Calculator();
+
+        return given("a", "b", "c", "d", "e", "f", "g", "h")
+                .are(1, 1, 1, 1, 1, 1, 1, 6)
+                .and(2, 2, 2, 2, 2, 2, 2, 13)
+                .only(2, 3, 5, 10, 20, 40, 80, 160)
+                .and(999, 888, 777, 666, 555, 444, 333, 222)  // This should be skipped - would fail if executed (999 + 888 + 777 + 666 + 555 + 444 + 333 != 222)
+                .only(3, 5, 8, 16, 32, 64, 128, 256)
+                .and(111, 100, 200, 300, 400, 500, 600, 700)  // This should be skipped - would fail if executed (111 + 100 + 200 + 300 + 400 + 500 + 600 != 700)
+                .expect("#a + #b + #c + #d + #e + #f + #g = #h", (a, b, c, d, e, f, g, h) -> calculator.add(a, b, c, d, e, f, g) == h);
+    }
+
+    @TestFactory
+    Expectations basicTest8HeadersWithOnly() {
+        Calculator calculator = new Calculator();
+
+        return given("a", "b", "c", "d", "e", "f", "g", "h")
+                .only(2, 3, 5, 10, 20, 40, 80, 160)
+                .only(3, 5, 8, 16, 32, 64, 128, 256)
+                .and(999, 888, 777, 666, 555, 444, 333, 222)  // This should be skipped - would fail if executed (999 + 888 + 777 + 666 + 555 + 444 + 333 != 222)
+                .expect("#a + #b + #c + #d + #e + #f + #g = #h", (a, b, c, d, e, f, g, h) -> calculator.add(a, b, c, d, e, f, g) == h);
     }
 
     @TestFactory
@@ -633,6 +847,31 @@ class ExpectationsTest {
     }
 
     @TestFactory
+    Expectations basicTest9WithOnly() {
+        Calculator calculator = new Calculator();
+
+        return given("a", "b", "c", "d", "e", "f", "g", "h", "i")
+                .are(1, 1, 1, 1, 1, 1, 1, 1, 7)
+                .and(2, 2, 2, 2, 2, 2, 2, 2, 15)
+                .only(2, 3, 5, 10, 20, 40, 80, 160, 320)
+                .and(999, 888, 777, 666, 555, 444, 333, 222, 111)  // This should be skipped - would fail if executed (999 + 888 + 777 + 666 + 555 + 444 + 333 + 222 != 111)
+                .only(3, 5, 8, 16, 32, 64, 128, 256, 512)
+                .and(100, 200, 300, 400, 500, 600, 700, 800, 900)  // This should be skipped - would fail if executed (100 + 200 + 300 + 400 + 500 + 600 + 700 + 800 != 900)
+                .expect("#a + #b + #c + #d + #e + #f + #g + #h = #i", (a, b, c, d, e, f, g, h, i) -> calculator.add(a, b, c, d, e, f, g, h) == i);
+    }
+
+    @TestFactory
+    Expectations basicTest9HeadersWithOnly() {
+        Calculator calculator = new Calculator();
+
+        return given("a", "b", "c", "d", "e", "f", "g", "h", "i")
+                .only(2, 3, 5, 10, 20, 40, 80, 160, 320)
+                .only(3, 5, 8, 16, 32, 64, 128, 256, 512)
+                .and(999, 888, 777, 666, 555, 444, 333, 222, 111)  // This should be skipped - would fail if executed (999 + 888 + 777 + 666 + 555 + 444 + 333 + 222 != 111)
+                .expect("#a + #b + #c + #d + #e + #f + #g + #h = #i", (a, b, c, d, e, f, g, h, i) -> calculator.add(a, b, c, d, e, f, g, h) == i);
+    }
+
+    @TestFactory
     Expectations basicTest9WithStreams() {
         Calculator calculator = new Calculator();
 
@@ -692,6 +931,31 @@ class ExpectationsTest {
                 .verify("#a + #b + #c + #d + #e + #f + #g + #h + #i = #j", (a, b, c, d, e, f, g, h, i, j) ->
                         assertEquals((int) j, calculator.add(a, b, c, d, e, f, g, h, i))
                 );
+    }
+
+    @TestFactory
+    Expectations basicTest10WithOnly() {
+        Calculator calculator = new Calculator();
+
+        return given("a", "b", "c", "d", "e", "f", "g", "h", "i", "j")
+                .are(1, 1, 1, 1, 1, 1, 1, 1, 1, 8)
+                .and(2, 2, 2, 2, 2, 2, 2, 2, 2, 17)
+                .only(2, 3, 5, 10, 20, 40, 80, 160, 320, 640)
+                .and(999, 888, 777, 666, 555, 444, 333, 222, 111, 100)  // This should be skipped - would fail if executed (999 + 888 + 777 + 666 + 555 + 444 + 333 + 222 + 111 != 100)
+                .only(3, 5, 8, 16, 32, 64, 128, 256, 512, 1024)
+                .and(200, 300, 400, 500, 600, 700, 800, 900, 100, 200)  // This should be skipped - would fail if executed (200 + 300 + 400 + 500 + 600 + 700 + 800 + 900 + 100 != 200)
+                .expect("#a + #b + #c + #d + #e + #f + #g + #h + #i = #j", (a, b, c, d, e, f, g, h, i, j) -> calculator.add(a, b, c, d, e, f, g, h, i) == j);
+    }
+
+    @TestFactory
+    Expectations basicTest10HeadersWithOnly() {
+        Calculator calculator = new Calculator();
+
+        return given("a", "b", "c", "d", "e", "f", "g", "h", "i", "j")
+                .only(2, 3, 5, 10, 20, 40, 80, 160, 320, 640)
+                .only(3, 5, 8, 16, 32, 64, 128, 256, 512, 1024)
+                .and(999, 888, 777, 666, 555, 444, 333, 222, 111, 100)  // This should be skipped - would fail if executed (999 + 888 + 777 + 666 + 555 + 444 + 333 + 222 + 111 != 100)
+                .expect("#a + #b + #c + #d + #e + #f + #g + #h + #i = #j", (a, b, c, d, e, f, g, h, i, j) -> calculator.add(a, b, c, d, e, f, g, h, i) == j);
     }
 
     @Test

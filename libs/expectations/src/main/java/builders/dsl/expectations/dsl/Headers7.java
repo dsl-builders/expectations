@@ -17,6 +17,8 @@
  */
 package builders.dsl.expectations.dsl;
 
+import builders.dsl.expectations.ci.ContinuousIntegrationChecks;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,6 +74,27 @@ public class Headers7 {
         List<Row7<A, B, C, D, E, F, G>> rows = new ArrayList<>();
         rows.add(new Row7<>(a, b, c, d, e, f, g));
         return new DataTable7<>(this, rows);
+    }
+
+    /**
+     * Creates the first data row with the seven parameters.
+     * <p>
+     * Only rows with call to <code>only</code> method will be run.
+     *
+     * @param a the first value of the first parameter
+     * @param b the first value of the second parameter
+     * @param c the first value of the third parameter
+     * @param d the first value of the fourth parameter
+     * @param e the first value of the fifth parameter
+     * @param f the first value of the sixth parameter
+     * @param g the first value of the seventh parameter
+     * @return the new data row with the seven parameters
+     */
+    public <A, B, C, D, E, F, G> DataTable7<A, B, C, D, E, F, G> only(A a, B b, C c, D d, E e, F f, G g) {
+        ContinuousIntegrationChecks.checkOnlyAllowed();
+        List<Row7<A, B, C, D, E, F, G>> rows = new ArrayList<>();
+        rows.add(new Row7<>(a, b, c, d, e, f, g));
+        return new DataTable7<>(this, rows, true);
     }
 
 }

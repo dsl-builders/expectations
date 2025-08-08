@@ -18,11 +18,13 @@
 package builders.dsl.expectations.dsl;
 
 import builders.dsl.expectations.Expectations;
+import builders.dsl.expectations.ci.ContinuousIntegrationChecks;
 import builders.dsl.expectations.source.SourceLocationInfo;
 import org.junit.jupiter.api.DynamicTest;
 import org.opentest4j.AssertionFailedError;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -33,6 +35,7 @@ public class DataTable1<A> {
 
     private final List<Row1<A>> data = new ArrayList<>();
     private final Headers1 headers;
+    private final boolean only;
 
     /**
      * Creates a new data table with a single column.
@@ -41,7 +44,19 @@ public class DataTable1<A> {
      * @param rows    the rows of the data table
      */
     public DataTable1(Headers1 headers, Iterable<Row1<A>> rows) {
+        this(headers, rows, false);
+    }
+
+    /**
+     * Creates a new data table with a single column.
+     *
+     * @param headers the headers of the data table
+     * @param rows    the rows of the data table
+     * @param only    if <code>true</code>, only this row and any other starting with <code>only</code >will be used in the expectation
+     */
+    public DataTable1(Headers1 headers, Iterable<Row1<A>> rows, boolean only) {
         this.headers = headers;
+        this.only = only;
         rows.forEach(data::add);
     }
 
@@ -77,8 +92,22 @@ public class DataTable1<A> {
      * @return self with the new row added
      */
     public DataTable1<A> and(A a) {
+        if (only) {
+            // and is skipped if only is set
+            return this;
+        }
         data.add(new Row1<>(a));
         return this;
+    }
+
+    public DataTable1<A> only(A a) {
+        ContinuousIntegrationChecks.checkOnlyAllowed();
+        if (only) {
+            data.add(new Row1<>(a));
+            return this;
+        }
+
+        return new DataTable1<>(headers, Collections.singleton(new Row1<>(a)), true);
     }
 
     Stream<DynamicTest> generateTests(String template, Assertion1<A> verification) {

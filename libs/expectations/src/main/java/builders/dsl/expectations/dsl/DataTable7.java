@@ -18,11 +18,13 @@
 package builders.dsl.expectations.dsl;
 
 import builders.dsl.expectations.Expectations;
+import builders.dsl.expectations.ci.ContinuousIntegrationChecks;
 import builders.dsl.expectations.source.SourceLocationInfo;
 import org.junit.jupiter.api.DynamicTest;
 import org.opentest4j.AssertionFailedError;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -41,6 +43,7 @@ public class DataTable7<A, B, C, D, E, F, G> {
 
     private final List<Row7<A, B, C, D, E, F, G>> data = new ArrayList<>();
     private final Headers7 headers;
+    private final boolean only;
 
     /**
      * Creates a new data table with seven columns.
@@ -48,7 +51,18 @@ public class DataTable7<A, B, C, D, E, F, G> {
      * @param rows the rows of the data table
      */
     public DataTable7(Headers7 headers, Iterable<Row7<A, B, C, D, E, F, G>> rows) {
+        this(headers, rows, false);
+    }
+
+    /**
+     * Creates a new data table with seven columns.
+     * @param headers the headers of the data table
+     * @param rows the rows of the data table
+     * @param only if <code>true</code>, only this row and any other starting with <code>only</code >will be used in the expectation
+     */
+    public DataTable7(Headers7 headers, Iterable<Row7<A, B, C, D, E, F, G>> rows, boolean only) {
         this.headers = headers;
+        this.only = only;
         rows.forEach(data::add);
     }
 
@@ -86,8 +100,22 @@ public class DataTable7<A, B, C, D, E, F, G> {
      * @param g the seventh element
      */
     public DataTable7<A, B, C, D, E, F, G> and(A a, B b, C c, D d, E e, F f, G g) {
+        if (only) {
+            // and is skipped if only is set
+            return this;
+        }
         data.add(new Row7<>(a, b, c, d, e, f, g));
         return this;
+    }
+
+    public DataTable7<A, B, C, D, E, F, G> only(A a, B b, C c, D d, E e, F f, G g) {
+        ContinuousIntegrationChecks.checkOnlyAllowed();
+        if (only) {
+            data.add(new Row7<>(a, b, c, d, e, f, g));
+            return this;
+        }
+
+        return new DataTable7<>(headers, Collections.singleton(new Row7<>(a, b, c, d, e, f, g)), true);
     }
 
     Stream<DynamicTest> generateTests(String template, Assertion7<A, B, C, D, E, F, G> verification) {

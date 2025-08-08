@@ -17,6 +17,8 @@
  */
 package builders.dsl.expectations.dsl;
 
+import builders.dsl.expectations.ci.ContinuousIntegrationChecks;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +50,23 @@ public class Headers3 {
         List<Row3<A, B, C>> rows = new ArrayList<>();
         rows.add(new Row3<>(a, b, c));
         return new DataTable3<>(this, rows);
+    }
+
+    /**
+     * Creates the first data row with the three parameters.
+     * <p>
+     * Only rows with call to <code>only</code> method will be run.
+     *
+     * @param a the first value of the first parameter
+     * @param b the first value of the second parameter
+     * @param c the first value of the third parameter
+     * @return the new data row with the three parameters
+     */
+    public <A, B, C> DataTable3<A, B, C> only(A a, B b, C c) {
+        ContinuousIntegrationChecks.checkOnlyAllowed();
+        List<Row3<A, B, C>> rows = new ArrayList<>();
+        rows.add(new Row3<>(a, b, c));
+        return new DataTable3<>(this, rows, true);
     }
 
 }

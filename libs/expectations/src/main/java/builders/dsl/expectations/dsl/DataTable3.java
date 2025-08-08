@@ -18,11 +18,13 @@
 package builders.dsl.expectations.dsl;
 
 import builders.dsl.expectations.Expectations;
+import builders.dsl.expectations.ci.ContinuousIntegrationChecks;
 import builders.dsl.expectations.source.SourceLocationInfo;
 import org.junit.jupiter.api.DynamicTest;
 import org.opentest4j.AssertionFailedError;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -36,6 +38,7 @@ public class DataTable3<A, B, C> {
 
     private final List<Row3<A, B, C>> data = new ArrayList<>();
     private final Headers3 headers;
+    private final boolean only;
 
     /**
      * Creates a new data table with three columns.
@@ -43,7 +46,18 @@ public class DataTable3<A, B, C> {
      * @param rows the rows of the data table
      */
     public DataTable3(Headers3 headers, Iterable<Row3<A, B, C>> rows) {
+        this(headers, rows, false);
+    }
+
+    /**
+     * Creates a new data table with three columns.
+     * @param headers the headers of the data table
+     * @param rows the rows of the data table
+     * @param only if <code>true</code>, only this row and any other starting with <code>only</code >will be used in the expectation
+     */
+    public DataTable3(Headers3 headers, Iterable<Row3<A, B, C>> rows, boolean only) {
         this.headers = headers;
+        this.only = only;
         rows.forEach(data::add);
     }
 
@@ -78,8 +92,22 @@ public class DataTable3<A, B, C> {
      * @return self with the new row added
      */
     public DataTable3<A, B, C> and(A a, B b, C c) {
+        if (only) {
+            // and is skipped if only is set
+            return this;
+        }
         data.add(new Row3<>(a, b, c));
         return this;
+    }
+
+    public DataTable3<A, B, C> only(A a, B b, C c) {
+        ContinuousIntegrationChecks.checkOnlyAllowed();
+        if (only) {
+            data.add(new Row3<>(a, b, c));
+            return this;
+        }
+
+        return new DataTable3<>(headers, Collections.singleton(new Row3<>(a, b, c)), true);
     }
 
     Stream<DynamicTest> generateTests(String template, Assertion3<A, B, C> verification) {
